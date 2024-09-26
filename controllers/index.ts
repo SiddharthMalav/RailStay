@@ -4,7 +4,7 @@
  */
 
 import { Mongo } from "@/config/db-connection";
-import { isAuthLogin } from "@/utils";
+import { isAuthLogin } from "@/utils/utils";
 import mongoose from "mongoose";
 import { redirect } from "next/navigation";
 

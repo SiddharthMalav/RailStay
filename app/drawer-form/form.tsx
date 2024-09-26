@@ -9,6 +9,11 @@ import {
   getUserByIdAction,
   updateUserAction,
 } from "@/actions/index";
+import Button from "@/component/common/button";
+import DropDown from "@/component/common/dropdown";
+import Input from "@/component/common/input";
+import Label from "@/component/common/label";
+import Title from "@/component/common/title";
 import useDrawer from "@/hooks/useDrawer";
 import useToast from "@/hooks/useToast";
 import { ToastType } from "@/state/toast/slice";
@@ -70,12 +75,17 @@ export default function SampleForm(props: Tprops) {
 
   return (
     <div className="p-4">
+      <Title>User Form</Title>
+      <hr className="py-2" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex py-1">
-          <label className="w-1/4">Name</label>
-          <input
+          <Label className="w-1/4">Name</Label>
+          <Input
+            type={"text"}
+            placeholder="Enter your name"
             className="border"
-            {...register("name", { required: "Name is required" })}
+            name={"name"}
+            register={register}
           />
           {errors.name && (
             <p className="text-red-500 pl-2">{errors.name.message as string}</p>
@@ -83,10 +93,13 @@ export default function SampleForm(props: Tprops) {
         </div>
 
         <div className="flex py-1">
-          <label className="w-1/4">Age</label>
-          <input
+          <Label className="w-1/4">Age</Label>
+          <Input
+            type={"text"}
+            placeholder="Enter your age"
             className="border"
-            {...register("age", { required: "Age is required" })}
+            name={"age"}
+            register={register}
           />
           {errors.age && (
             <p className="text-red-500 pl-2">{errors.age.message as string}</p>
@@ -94,16 +107,17 @@ export default function SampleForm(props: Tprops) {
         </div>
 
         <div className="flex py-1">
-          <label className="w-1/4">Gender</label>
-          <select
-            className="border"
-            {...register("gender", { required: "Gender is required" })}
-          >
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
+          <Label className="w-1/4">Gender</Label>
+          <DropDown
+            name="gender"
+            register={register}
+            options={[
+              { value: "", label: "Select Gender" },
+              { value: "male", label: "Male" },
+              { value: "female", label: "Female" },
+              { value: "other", label: "Other" },
+            ]}
+          />
           {errors.gender && (
             <p className="text-red-500 pl-2">
               {errors.gender.message as string}
@@ -112,10 +126,13 @@ export default function SampleForm(props: Tprops) {
         </div>
 
         <div className="flex py-1">
-          <label className="w-1/4">Address</label>
-          <input
+          <Label className="w-1/4">Address</Label>
+          <Input
+            type={"text"}
+            placeholder="Enter your address"
             className="border"
-            {...register("address", { required: "Address is required" })}
+            name={"address"}
+            register={register}
           />
           {errors.address && (
             <p className="text-red-500 pl-2">
@@ -125,17 +142,13 @@ export default function SampleForm(props: Tprops) {
         </div>
 
         <div className="flex py-1">
-          <label className="w-1/4">Email</label>
-          <input
+          <Label className="w-1/4">Email</Label>
+          <Input
             type="email"
             className="border"
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                message: "Enter a valid email",
-              },
-            })}
+            placeholder="Enter your email"
+            name={"email"}
+            register={register}
           />
           {errors.email && (
             <p className="text-red-500 pl-2">
@@ -145,10 +158,13 @@ export default function SampleForm(props: Tprops) {
         </div>
 
         <div className="flex py-1">
-          <label className="w-1/4">Number</label>
-          <input
+          <Label className="w-1/4">Number</Label>
+          <Input
             className="border"
-            {...register("number", { required: "Number is required" })}
+            placeholder="Enter your number"
+            type={"text"}
+            name={"number"}
+            register={register}
           />
           {errors.number && (
             <p className="text-red-500 pl-2">
@@ -158,10 +174,13 @@ export default function SampleForm(props: Tprops) {
         </div>
 
         <div className="flex py-1">
-          <label className="w-1/4">Pincode</label>
-          <input
+          <Label className="w-1/4">Pincode</Label>
+          <Input
             className="border"
-            {...register("pincode", { required: "Pincode is required" })}
+            type={"text"}
+            placeholder="Enter your pinode"
+            name={"pincode"}
+            register={register}
           />
           {errors.pincode && (
             <p className="text-red-500 pl-2">
@@ -169,21 +188,19 @@ export default function SampleForm(props: Tprops) {
             </p>
           )}
         </div>
-        <button
-          onClick={() => {
-            onCloseDrawer();
-          }}
-          className="bg-blue-400 rounded-lg px-2 text-white mr-2"
-        >
-          Close
-        </button>
-
-        <button
-          className="bg-blue-400 rounded-lg px-2 text-white"
-          type="submit"
-        >
-          Submit
-        </button>
+        <div className="flex justify-end gap-2">
+          <Button
+            variant="secondary"
+            onClick={() => {
+              onCloseDrawer();
+            }}
+          >
+            Close
+          </Button>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </div>
       </form>
     </div>
   );

@@ -6,11 +6,16 @@
 "use client";
 import { getBookingDataAction } from "@/actions/index";
 import PaymentDetailList from "@/app/booking-list/payment-list";
+import Button from "@/component/common/button";
+import Input from "@/component/common/input";
+import Label from "@/component/common/label";
 import Pagination from "@/component/common/pagination";
+import Title from "@/component/common/title";
 import { eHTTPStatusCode } from "@/enums/shared-enums";
 import useModal from "@/hooks/useModal";
 import useToast from "@/hooks/useToast";
 import { ToastType } from "@/state/toast/slice";
+import Utils from "@/utils";
 import { faStreetView } from "@fortawesome/free-solid-svg-icons/faStreetView";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -100,44 +105,42 @@ const BookingDetailList = () => {
   };
 
   return (
-    <div className="p-[5rem] h-full">
-      <div className="flex flex-row justify-between mb-3">
-        <h1 className="text-black-900 font-bold pb-2">Booking Details</h1>
-      </div>
-      <div className="flex flex-row justify-between mb-3">
-        <label>Search Name</label>
-        <input
+    <div className="px-10 py-4 h-full">
+      <Title>Booking Details</Title>
+      <div className="flex flex-row pt-2 justify-between mb-3">
+        <Label>Search Name</Label>
+        <Input
           className="border"
           type="text"
           onChange={(e) => {
             updateSearchParams("searchQuery", e.target.value);
           }}
+          placeholder={"search anything..."}
+          name={""}
         />
-        <label>CheckIn Date:</label>
-        <input
+        <Label>CheckIn Date:</Label>
+        <Input
           type="date"
-          id="stateDate"
           name="stateDate"
           onChange={(e) => {
             setStartDate(e.target.value);
           }}
         />
-        <label>Checkout Date:</label>
-        <input
+        <Label>Checkout Date:</Label>
+        <Input
           type="date"
-          id="endDate"
           name="endDate"
           onChange={(e) => {
             setEndDate(e.target.value);
           }}
         />
-        <button
+        <Button
           onClick={() => {
             onApply();
           }}
         >
           Apply
-        </button>
+        </Button>
       </div>
       <table className="p-2 table-fixed border border-collapse border-spacing-3 border-slate-400 w-full">
         <thead>
@@ -150,6 +153,7 @@ const BookingDetailList = () => {
             <th>Check Out</th>
             <th>Hotel Name</th>
             <th>Room Name</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -163,8 +167,8 @@ const BookingDetailList = () => {
                 <td className="text-center ">{item.name}</td>
                 <td className="text-center">{item.address}</td>
                 <td className="text-center">{item.number}</td>
-                <td className="text-center">{item.checkIn}</td>
-                <td className="text-center">{item.checkOut}</td>
+                <td className="text-center">{Utils.getDate(item.checkIn)}</td>
+                <td className="text-center">{Utils.getDate(item.checkOut)}</td>
                 <td className="text-center">{item.hotelId}</td>
                 <td className="text-center">{item.roomId}</td>
                 <td className="text-center">
@@ -180,12 +184,15 @@ const BookingDetailList = () => {
             ))}
         </tbody>
       </table>
-      <Pagination
-        itemsPerPage={10}
-        items={totalItems}
-        onPageChange={onPageChange}
-        initialPage={currentPage}
-      />
+      <div className="py-8">
+        {" "}
+        <Pagination
+          itemsPerPage={10}
+          items={totalItems}
+          onPageChange={onPageChange}
+          initialPage={currentPage}
+        />
+      </div>
     </div>
   );
 };

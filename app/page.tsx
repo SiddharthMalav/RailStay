@@ -5,7 +5,7 @@
  */
 "use server";
 import { MONGODB_URI } from "@/config/env";
-import { isAuthLogin } from "@/utils";
+import { isAuthLogin } from "@/utils/utils";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import "reflect-metadata";

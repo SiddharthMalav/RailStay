@@ -3,7 +3,7 @@
  * In this Component All fetch methods like GET,POST,PATCH are defined commonly so we can use ApiUtil class throughout the Project.
  */
 import { eHTTPStatusCode } from "@/enums/shared-enums";
-import { getCookie } from "@/utils";
+import { getCookie } from "@/utils/utils";
 export const BASEURL = "/api" || "/";
 
 const DEFAULT_HEADERS: RequestInit = {

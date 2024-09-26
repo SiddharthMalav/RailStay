@@ -4,7 +4,7 @@
 "use client";
 
 import { eHTTPStatusCode } from "@/enums/shared-enums";
-import { getCookie, removeCookie } from "@/utils";
+import { getCookie, removeCookie } from "@/utils/utils";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

@@ -136,6 +136,10 @@ export default class Utils {
       setFocus(key);
     }, 100);
   };
+  static getDate = (date: string | Date) => {
+    const parsedDate = new Date(date); // Convert to Date object if it's a string
+    return parsedDate.toISOString().split("T")[0]; // Get the date part (YYYY-MM-DD)
+  };
 
   static dropdownValuebyKey = (
     options: { value: number; label: string }[],

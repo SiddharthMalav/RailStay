@@ -17,6 +17,7 @@
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "bson": "^6.8.0",
+    "clsx": "^2.1.1",
     "fortawesome": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",

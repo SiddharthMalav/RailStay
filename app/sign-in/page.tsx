@@ -4,8 +4,10 @@
 
 "use client";
 
+import Spinner from "@/component/common/spinner";
 import apiUtil from "@/utils/api";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface LoginFormData {
@@ -20,17 +22,25 @@ const SignInPage = () => {
     formState: { errors },
   } = useForm<LoginFormData>();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: LoginFormData) => {
-    const res = await apiUtil.post("/sign-in", data);
-    console.log("res", res);
-    const response = await res.json();
-    if (response.status == 200) {
-      console.log("response", res, response);
-      router.push("/");
-      document.cookie = `token=${response.token}`;
-    } else {
-      console.error(response.message);
+    try {
+      setIsLoading(true);
+      const res = await apiUtil.post("/sign-in", data);
+      console.log("res", res);
+
+      const response = await res.json();
+      if (response.status == 200) {
+        document.cookie = `token=${response.token}`;
+        router.push("/");
+      } else {
+        console.error(response.message);
+      }
+    } catch (error) {
+      console.error("error", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -58,6 +68,7 @@ const SignInPage = () => {
                 <input
                   id="emailOrUsername"
                   type="text"
+                  autoComplete="off"
                   placeholder="Enter Email or Username"
                   className={`appearance-none block w-full px-3 py-2 border ${
                     errors.emailOrUsername
@@ -86,6 +97,7 @@ const SignInPage = () => {
                 <input
                   id="password"
                   type="password"
+                  autoComplete="new-password"
                   placeholder="Enter Password"
                   className={`appearance-none block w-full px-3 py-2 border ${
                     errors.password ? "border-red-500" : "border-gray-300"
@@ -106,7 +118,7 @@ const SignInPage = () => {
                 type="submit"
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                Sign In
+                {isLoading ? <Spinner /> : "Sign In"}
               </button>
             </div>
             <p className="font-semibold text-center">

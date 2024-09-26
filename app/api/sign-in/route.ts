@@ -1,10 +1,14 @@
+import { Mongo } from "@/config/db-connection";
 import LoginUserModel from "@/schemas/loginUsers";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { Connection } from "mongoose";
 import { NextApiResponse } from "next";
 
 export async function POST(req: any, res: NextApiResponse) {
   try {
+    const connect = new Mongo();
+    connect.connect();
     const { emailOrUsername, password } = await req.json();
     const user = await LoginUserModel.findOne({
       $or: [{ name: emailOrUsername }, { email: emailOrUsername }],

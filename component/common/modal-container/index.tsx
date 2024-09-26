@@ -9,6 +9,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import Button from "../button";
 
 export default function ModalContainer() {
   const {
@@ -49,21 +50,19 @@ export default function ModalContainer() {
         <div className="border-t border-gray-300 pt-2 pb-3 px-4 rounded-b-lg">
           <div className="flex justify-end">
             <div className="gap-1 flex">
-              <button
-                className="flex gap-1 bg-blue-500 !text-white items-center p-1 rounded-md"
-                onClick={onCloseModal}
-              >
+              <Button variant="secondary" size="md" onClick={onCloseModal}>
                 <FontAwesomeIcon icon={faXmark as IconProp} size="lg" />
-                <span>Cancel</span>
-              </button>
-              <button
+                <span>&nbsp;Cancel</span>
+              </Button>
+              <Button
                 type="submit"
-                className="flex gap-1 bg-blue-500 !text-white items-center p-1 rounded-md"
+                size="md"
+                variant="primary"
                 onClick={onClickSaveButton}
               >
                 <FontAwesomeIcon icon={faSave as IconProp} size="lg" />
                 <span>&nbsp;Save</span>
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -97,7 +96,7 @@ export default function ModalContainer() {
       <div
         className={`
           "!fixed transform bg-white !duration-[0.3s] !ease-out !animate-popup !block
-             shadow-md
+             shadow-md max-w-[90%]
           ${sizes[size]},
           rounded-lg
         `}

@@ -3,6 +3,7 @@
  * Fetches and displays room information for a specific hotel ID.
  */
 import { getRoomByHotelIdAction } from "@/actions/index";
+import Title from "@/component/common/title";
 import { useEffect, useState } from "react";
 type TProps = {
   hotelId: string;
@@ -30,10 +31,9 @@ const RoomDetailList = (props: TProps) => {
   }, [hotelId]);
 
   return (
-    <div className="h-full overflow-y-auto ">
-      <div className="flex flex-row justify-between mb-3">
-        <h1 className="text-black-900 font-bold pb-2">Rooms Details</h1>
-      </div>
+    <div className="p-4 h-full overflow-y-auto ">
+      <Title>Rooms Details</Title>
+
       <table className="p-2 table-fixed border border-collapse border-spacing-3 border-slate-400 w-full">
         <thead>
           <tr className="border-b-2">

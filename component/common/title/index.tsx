@@ -1,4 +1,4 @@
-import { sizeClasses } from "@/enums/enums";
+import { sizes } from "@/enums/shared-enums";
 import React from "react";
 
 type TitleProps = {
@@ -7,14 +7,14 @@ type TitleProps = {
   className?: string;
 };
 
-const CustomTitle = (props: TitleProps) => {
+const Title = (props: TitleProps) => {
   const { children, size = "lg", className } = props;
 
   return (
-    <h1 className={`text-black  font-bold ${sizeClasses[size]} ${className}`}>
+    <h1 className={`text-black font-bold ${sizes[size]} ${className}`}>
       {children}
     </h1>
   );
 };
 
-export default CustomTitle;
+export default Title;

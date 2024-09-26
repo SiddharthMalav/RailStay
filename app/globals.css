@@ -5,3 +5,14 @@
 body {
   word-break: break-all;
 }
+
+table > thead > tr > th {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  color: rgba(0, 0, 0, 0.815);
+}
+table > tbody > tr > td {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  color: rgba(0, 0, 0, 0.815);
+}

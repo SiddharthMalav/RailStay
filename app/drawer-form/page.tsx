@@ -5,7 +5,11 @@
 
 "use client";
 import { deleteUserAction, getUserAction } from "@/actions/index";
+import Button from "@/component/common/button";
+import Input from "@/component/common/input";
+import Label from "@/component/common/label";
 import Pagination from "@/component/common/pagination";
+import Title from "@/component/common/title";
 import { eHTTPStatusCode } from "@/enums/shared-enums";
 import useDrawer from "@/hooks/useDrawer";
 import useToast from "@/hooks/useToast";
@@ -106,21 +110,22 @@ const SampleList = () => {
   const startIndex = (currentPage - 1) * 10;
 
   return (
-    <div className="p-[5rem] h-full">
+    <div className="px-10 py-4 h-full">
+      <Title>User Details</Title>
       <div className="flex flex-row justify-between mb-3">
-        <h1 className="text-black-900 font-bold pb-2">User List</h1>
-      </div>
-      <div className="flex flex-row justify-between mb-3">
-        <label>Search Name</label>
-        <input
-          className="border"
-          type="text"
-          value={searchQuery}
-          onChange={(e) => {
-            updateSearchParams("searchQuery", e.target.value);
-          }}
-        />
-        <button onClick={addUser}>Add User</button>
+        <div className="flex gap-2">
+          <Label>Search Name</Label>
+          <Input
+            className="border"
+            type="text"
+            value={searchQuery}
+            name={""}
+            onChange={(e) => {
+              updateSearchParams("searchQuery", e.target.value);
+            }}
+          />
+        </div>
+        <Button onClick={addUser}>Add User</Button>
       </div>
       <table className="p-2 table-fixed border border-collapse border-spacing-3 border-slate-400 w-full">
         <thead>
@@ -169,12 +174,15 @@ const SampleList = () => {
             ))}
         </tbody>
       </table>
-      <Pagination
-        itemsPerPage={10}
-        items={totalItems}
-        initialPage={currentPage}
-        onPageChange={onPageChange}
-      />
+      <div className="py-8">
+        {" "}
+        <Pagination
+          itemsPerPage={10}
+          items={totalItems}
+          onPageChange={onPageChange}
+          initialPage={currentPage}
+        />
+      </div>
     </div>
   );
 };

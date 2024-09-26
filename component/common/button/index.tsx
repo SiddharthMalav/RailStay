@@ -1,6 +1,6 @@
 import React from "react";
 
-type CustomButtonProps = {
+type ButtonProps = {
   children: React.ReactNode;
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
@@ -20,7 +20,7 @@ type CustomButtonProps = {
   className?: string;
 };
 
-const CustomButton: React.FC<CustomButtonProps> = ({
+const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
   type = "button",
@@ -30,7 +30,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   className = "",
 }) => {
   // Define size classes for button
-  const sizeClasses = {
+  const 
+  lasses = {
     sm: "px-3 py-1 text-sm",
     md: "px-4 py-2 text-md",
     lg: "px-5 py-3 text-lg",
@@ -56,7 +57,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`rounded ${sizeClasses[size]} ${
+      className={`rounded ${
+        lasses[size]} ${
         variantClasses[variant]
       } ${className} ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
     >
@@ -65,4 +67,4 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   );
 };
 
-export default CustomButton;
+export default Button;

@@ -1,9 +1,9 @@
-import React from "react";
 import clsx from "clsx"; // Optional utility for managing class names (can also just use template literals)
+import React from "react";
 
-interface CustomInputProps {
+interface InputProps {
   type: string;
-  placeholder: string;
+  placeholder?: string;
   name: string;
   register?: any;
   autoComplete?: string;
@@ -12,7 +12,7 @@ interface CustomInputProps {
   className?: string;
 }
 
-const CustomInput: React.FC<CustomInputProps> = ({
+const Input: React.FC<InputProps> = ({
   type,
   placeholder,
   name,
@@ -38,4 +38,4 @@ const CustomInput: React.FC<CustomInputProps> = ({
   );
 };
 
-export default CustomInput;
+export default Input;

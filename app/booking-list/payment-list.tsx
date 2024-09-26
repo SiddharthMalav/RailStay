@@ -3,6 +3,7 @@
  * Fetches and displays payment information for a specific booking ID.
  */
 import { getBookingPaymentByIdAction } from "@/actions/index";
+import Title from "@/component/common/title";
 import { useEffect, useState } from "react";
 
 const PaymentDetailList = (props: Tprops) => {
@@ -22,9 +23,8 @@ const PaymentDetailList = (props: Tprops) => {
 
   return (
     <div className="h-full overflow-y-auto pt-4">
-      <div className="flex flex-row justify-between mb-3">
-        <h1 className="text-black-900 font-bold pb-2">Payments Details</h1>
-      </div>
+      <Title>Payments Details</Title>
+
       <table className="p-2 table-fixed border border-collapse border-spacing-3 border-slate-400 w-full">
         <thead>
           <tr className="border-b-2">

@@ -63,9 +63,6 @@ const CommonUtil = () => {
     return displayName;
   };
 
-
-
-
   //this function is for error log
   const logError = (error: unknown, functionName: string) => {
     console.error(`Encountered Error! While calling ${functionName}- `, error);

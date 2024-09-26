@@ -6,7 +6,12 @@
 "use client";
 import { getHotelDataAction } from "@/actions/index";
 import RoomDetailList from "@/app/hotel-list/room-list";
+import DropDown from "@/component/common/dropdown";
+import Input from "@/component/common/input";
+import Label from "@/component/common/label";
 import Pagination from "@/component/common/pagination";
+import Title from "@/component/common/title";
+import { eHTTPStatusCode } from "@/enums/shared-enums";
 import useDrawer from "@/hooks/useDrawer";
 import useToast from "@/hooks/useToast";
 import { ToastType } from "@/state/toast/slice";
@@ -84,33 +89,36 @@ const HotelDetailList = () => {
   const startIndex = (currentPage - 1) * 10;
 
   return (
-    <div className="p-[5rem] h-full">
+    <div className="px-10 py-4 h-full">
+      <Title>Hotels Details</Title>
+
       <div className="flex flex-row justify-between mb-3">
-        <h1 className="text-black-900 font-bold pb-2">Hotel Details</h1>
-      </div>
-      <div className="flex flex-row justify-between mb-3">
-        <label>Search Name</label>
-        <input
-          className="border"
-          type="text"
-          value={searchQuery}
-          onChange={(e) => {
-            updateSearchParams("searchQuery", e.target.value);
-          }}
-        />
-        <select
+        <div className="flex gap-2">
+          {" "}
+          <Label>Search Name</Label>
+          <Input
+            className="border"
+            type="text"
+            onChange={(e) => {
+              updateSearchParams("searchQuery", e.target.value);
+            }}
+            placeholder={"search anything..."}
+            name={""}
+          />
+        </div>
+        <DropDown
           name="rooms"
-          id="rooms"
           value={occupancyFilter}
           onChange={(e) => {
             updateSearchParams("occupancy", e.target.value);
           }}
-        >
-          <option value="">All</option>
-          <option value="Full">Full</option>
-          <option value="Empty">Empty</option>
-          <option value="Partial">Partial</option>
-        </select>
+          options={[
+            { value: "", label: "All" },
+            { value: "Full", label: "Full" },
+            { value: "Empty", label: "Empty" },
+            { value: "Partial", label: "Partial" },
+          ]}
+        />
       </div>
       <table className="p-2 table-fixed border border-collapse border-spacing-3 border-slate-400 w-full">
         <thead>
@@ -154,12 +162,14 @@ const HotelDetailList = () => {
             ))}
         </tbody>
       </table>
-      <Pagination
-        itemsPerPage={10}
-        items={totalItems}
-        initialPage={currentPage}
-        onPageChange={onPageChange}
-      />
+      <div className="py-8">
+        <Pagination
+          itemsPerPage={10}
+          items={totalItems}
+          onPageChange={onPageChange}
+          initialPage={currentPage}
+        />
+      </div>
     </div>
   );
 };

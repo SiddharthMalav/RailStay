@@ -17,6 +17,7 @@ import Title from "@/component/common/title";
 import useToast from "@/hooks/useToast";
 import { ToastType } from "@/state/toast/slice";
 import { TUser } from "@/types/shared-types";
+import { gender } from "@/utils/store";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -103,16 +104,7 @@ export default function SampleForm({ params }: any) {
 
         <div className="flex py-1">
           <Label className="w-1/4">Gender</Label>
-          <DropDown
-            name="gender"
-            register={register}
-            options={[
-              { value: "", label: "Select Gender" },
-              { value: "male", label: "Male" },
-              { value: "female", label: "Female" },
-              { value: "other", label: "Other" },
-            ]}
-          />
+          <DropDown name="gender" register={register} options={gender} />
           {errors.gender && (
             <p className="text-red-500 pl-2">
               {errors.gender.message as string}

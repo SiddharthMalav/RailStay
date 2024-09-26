@@ -18,6 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import TrainDetailForm from "./form";
+import { ageFilter } from "@/utils/store";
 
 const initialFilter = {
   trainNumber: "All",
@@ -143,12 +144,7 @@ const TrainDetailPage = () => {
           name="age"
           value={filterModel.age}
           onChange={(e) => updateFilterModal({ age: e.target.value })}
-          options={[
-            { value: "All", label: "All" },
-            { value: "Kids", label: "Kids" },
-            { value: "Young", label: "Young" },
-            { value: "Old", label: "Old" },
-          ]}
+          options={ageFilter}
         />
         <DropDown
           name="pnrNumber"

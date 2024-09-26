@@ -17,6 +17,7 @@ import { TrainListType } from "@/types/shared-types";
 import Utils from "@/utils";
 import { Pagination } from "antd";
 import { useRouter, useSearchParams } from "next/navigation";
+import { trainStatusFilter } from "@/utils/store";
 
 type TrainData = {
   from: string;
@@ -117,12 +118,7 @@ const Train = () => {
             updateFilterModal({ status: e.target.value, currentPage: 1 })
           }
           name={"status"}
-          options={[
-            { value: "Running", label: "Running" },
-            { value: "Not Running", label: "Not Running" },
-            { value: "Hold", label: "Hold" },
-            { value: "All", label: "All" },
-          ]}
+          options={trainStatusFilter}
         />
         <DropDown
           name="from"

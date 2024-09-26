@@ -7,6 +7,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "./store-provider";
 import ErrorBoundary from "@/component/common/errorBoundary";
+import Footer from "@/component/common/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,12 +25,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className} suppressHydrationWarning={true}>
         <ReduxProvider>
-        <ErrorBoundary>
-          <Navbar />
-          {children}
-          <DrawerContainer />
-          <ModalContainer />
-          <ToastContainer time={2000} />
+          <ErrorBoundary>
+            <Navbar />
+            {children}
+            <Footer />
+            <DrawerContainer />
+            <ModalContainer />
+            <ToastContainer time={2000} />
           </ErrorBoundary>
         </ReduxProvider>
       </body>

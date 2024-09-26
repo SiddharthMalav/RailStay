@@ -2,8 +2,10 @@ import LoginUserModel from "@/schemas/loginUsers";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { NextApiResponse } from "next";
-
+import { Mongo } from "@/config/db-connection";
 export async function POST(req: any, res: NextApiResponse) {
+  const connect = new Mongo();
+  connect.connect();
   const { userName, email, password } = await req.json();
   try {
     const existingUser = await LoginUserModel.findOne({
@@ -11,9 +13,12 @@ export async function POST(req: any, res: NextApiResponse) {
     });
 
     if (existingUser) {
-      return res
-        .status(400)
-        .json({ message: "userName or Email already exists" });
+      return new Response(
+        JSON.stringify({
+          message: "User Name or Email already exists",
+          status: 400,
+        })
+      );
     }
 
     // Hash the password

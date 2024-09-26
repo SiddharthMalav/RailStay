@@ -18,6 +18,7 @@ import useDrawer from "@/hooks/useDrawer";
 import useToast from "@/hooks/useToast";
 import { ToastType } from "@/state/toast/slice";
 import { TUser } from "@/types/shared-types";
+import { gender } from "@/utils/store";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaCheck } from "react-icons/fa";
@@ -111,12 +112,7 @@ export default function SampleForm(props: Tprops) {
           <DropDown
             name="gender"
             register={register}
-            options={[
-              { value: "", label: "Select Gender" },
-              { value: "male", label: "Male" },
-              { value: "female", label: "Female" },
-              { value: "other", label: "Other" },
-            ]}
+            options={gender}
           />
           {errors.gender && (
             <p className="text-red-500 pl-2">

@@ -2,13 +2,17 @@
  * trainDetailForm.tsx
  * This component is showing detail of train and passanger.
  */
-import { FaCheck } from "react-icons/fa";
-import React, { useEffect, useRef } from "react";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { getPersonDetailByIdActions } from "@/actions";
+import Button from "@/component/common/button";
+import Input from "@/component/common/input";
+import Label from "@/component/common/label";
+import Title from "@/component/common/title";
 import useDrawer from "@/hooks/useDrawer";
 import useToast from "@/hooks/useToast";
-import { getPersonDetailByIdActions } from "@/actions";
 import { ToastType } from "@/state/toast/slice";
+import { useEffect, useRef } from "react";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { FaCheck } from "react-icons/fa";
 
 type TrainDetailFormProps = {
   trainNumberId?: string;
@@ -101,18 +105,20 @@ const TrainDetailForm = (props: TrainDetailFormProps) => {
           // onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex flex-col gap-[10px] border-b-[20px] pb-[10px]">
-            <label>Train Detail</label>
+            <Title>Train Detail</Title>
             <div className="flex flex-row">
-              <label className="w-[20%]">Train Number :</label>
-              <input
+              <Label className="w-[20%]">Train Number :</Label>
+              <Input
+                type={"text"}
                 className="border-2 border-black border-solid rounded-md p-0.5"
                 {...register("trainDetails.trainNumber")}
                 placeholder="TNumber"
               />
             </div>
             <div className="flex flex-row">
-              <label className="w-[20%]">PNR Number :</label>
-              <input
+              <Label className="w-[20%]">PNR Number :</Label>
+              <Input
+                type={"text"}
                 className="border-2 border-black border-solid rounded-md p-0.5"
                 {...register("trainDetails.PNRNumber")}
                 placeholder="PNRNumber"
@@ -121,7 +127,7 @@ const TrainDetailForm = (props: TrainDetailFormProps) => {
             <div>
               {detailsData && detailsData?.trainDetails?.journeyStart && (
                 <div className="flex flex-row">
-                  <label className="w-[20%]">Journey Start :</label>
+                  <Label className="w-[20%]">Journey Start :</Label>
                   <p>
                     {detailsData &&
                       detailsData.trainDetails &&
@@ -133,7 +139,7 @@ const TrainDetailForm = (props: TrainDetailFormProps) => {
               )}
               {detailsData?.trainDetails?.departureTime && (
                 <div className="flex flex-row">
-                  <label className="w-[20%]">Departure Time :</label>
+                  <Label className="w-[20%]">Departure Time :</Label>
                   <p>
                     {detailsData &&
                       detailsData.trainDetails &&
@@ -147,15 +153,16 @@ const TrainDetailForm = (props: TrainDetailFormProps) => {
           </div>
 
           <div className="border-b-[20px] pb-[10px]">
-            <label>Person Detail</label>
+            <Label>Person Detail</Label>
             {fieldArrayPersonDetail.map((item, index) => (
               <div className="flex flex-col gap-[20px]" key={item.id}>
                 <div className="flex justify-between">
                   <div className="basis-[45%] flex justify-between">
-                    <label className="w-[20%]">Name :</label>
+                    <Label className="w-[20%]">Name :</Label>
                     <Controller
                       render={({ field }) => (
-                        <input
+                        <Input
+                          type={"text"}
                           className="border-2 border-black border-solid rounded-md p-0.5"
                           placeholder="name"
                           {...field}
@@ -167,10 +174,11 @@ const TrainDetailForm = (props: TrainDetailFormProps) => {
                   </div>
 
                   <div className="basis-[45%] flex justify-between">
-                    <label className="w-[20%]">Age :</label>
+                    <Label className="w-[20%]">Age :</Label>
                     <Controller
                       render={({ field }) => (
-                        <input
+                        <Input
+                          type={"text"}
                           className="border-2 border-black border-solid rounded-md p-0.5"
                           placeholder="age"
                           {...field}
@@ -183,10 +191,11 @@ const TrainDetailForm = (props: TrainDetailFormProps) => {
                 </div>
                 <div className="flex justify-between">
                   <div className="basis-[45%] flex justify-between">
-                    <label>Number :</label>
+                    <Label>Number :</Label>
                     <Controller
                       render={({ field }) => (
-                        <input
+                        <Input
+                          type={"text"}
                           className="border-2 border-black border-solid rounded-md p-0.5"
                           placeholder="mobileNumber"
                           {...field}
@@ -198,10 +207,11 @@ const TrainDetailForm = (props: TrainDetailFormProps) => {
                   </div>
 
                   <div className="basis-[45%] flex justify-between">
-                    <label>Email :</label>
+                    <Label>Email :</Label>
                     <Controller
                       render={({ field }) => (
-                        <input
+                        <Input
+                          type={"text"}
                           className="border-2 border-black border-solid rounded-md p-0.5"
                           placeholder="email"
                           {...field}
@@ -212,42 +222,23 @@ const TrainDetailForm = (props: TrainDetailFormProps) => {
                     />
                   </div>
                 </div>
-                <button
-                  className="bg-blue-300 text-white font-bold px-3 py-1.5 rounded-md"
-                  type="button"
-                  onClick={() => removePersonDetail(index)}
-                >
+                <Button type="button" onClick={() => removePersonDetail(index)}>
                   Remove
-                </button>
+                </Button>
               </div>
             ))}
-            {/* <div>
-              <button
-                className="bg-blue-300 text-white font-bold px-3 py-1.5 rounded-md mt-3"
-                type="button"
-                onClick={() =>
-                  appendPersonDetail({
-                    name: "",
-                    age: "",
-                    mobileNumber: "",
-                    email: "",
-                  })
-                }
-              >
-                Add Field
-              </button>
-            </div> */}
           </div>
 
           <div className="flex flex-col gap-[20px]">
-            <label>Luggage Detail:</label>
+            <Label>Luggage Detail:</Label>
             {luggageFields.map((item, index) => (
               <div className="flex flex-col gap-[10px]" key={item.id}>
                 <div className=" flex ">
-                  <label className="w-[18%]">Number Of Bags :</label>
+                  <Label className="w-[18%]">Number Of Bags :</Label>
                   <Controller
                     render={({ field }) => (
-                      <input
+                      <Input
+                        type={"text"}
                         className="border-2 border-black border-solid rounded-md p-0.5"
                         placeholder="numberOfBags"
                         {...field}
@@ -258,10 +249,11 @@ const TrainDetailForm = (props: TrainDetailFormProps) => {
                   />
                 </div>
                 <div className="  flex ">
-                  <label className="w-[18%]">Weight :</label>
+                  <Label className="w-[18%]">Weight :</Label>
                   <Controller
                     render={({ field }) => (
-                      <input
+                      <Input
+                        type={"text"}
                         className="border-2 border-black border-solid rounded-md p-0.5"
                         placeholder="Weight"
                         {...field}
@@ -272,31 +264,25 @@ const TrainDetailForm = (props: TrainDetailFormProps) => {
                   />
                 </div>
                 <div className="flex flex-row align-middle ">
-                  <button
-                    className="w-full bg-blue-300 text-white font-bold px-3 py-1.5 rounded-md"
-                    type="button"
-                    onClick={() => removeLuggage(index)}
-                  >
+                  <Button type="button" onClick={() => removeLuggage(index)}>
                     Remove
-                  </button>
+                  </Button>
                 </div>
               </div>
             ))}
 
             <div>
-              <button
-                className="bg-blue-300 text-white font-bold px-3 py-1.5 rounded-md"
+              <Button
                 type="button"
                 onClick={() => appendLuggage({ numberOfBags: "", weight: "" })}
               >
                 Add
-              </button>
+              </Button>
             </div>
           </div>
           <div className="flex   flex-row-reverse">
-            <button
+            <Button
               type="button"
-              className="bg-blue-300 text-white font-bold px-3 py-1.5 rounded-md"
               onClick={() => {
                 reset();
                 onCloseDrawer();
@@ -307,9 +293,8 @@ const TrainDetailForm = (props: TrainDetailFormProps) => {
                 });
               }}
             >
-              {" "}
               Cancel
-            </button>
+            </Button>
           </div>
         </form>
       </div>

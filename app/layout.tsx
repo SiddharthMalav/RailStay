@@ -1,4 +1,6 @@
 import DrawerContainer from "@/component/common/drawer-container/index";
+import ErrorBoundary from "@/component/common/errorBoundary";
+import Footer from "@/component/common/footer";
 import ModalContainer from "@/component/common/modal-container";
 import Navbar from "@/component/common/navbar";
 import ToastContainer from "@/component/common/toast-container/index";
@@ -6,8 +8,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "./store-provider";
-import ErrorBoundary from "@/component/common/errorBoundary";
-import Footer from "@/component/common/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 

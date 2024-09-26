@@ -6,15 +6,19 @@ import {
 } from "@/actions";
 import { Pagination } from "antd";
 
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { useSearchParams, useRouter } from "next/navigation";
-import React, { useEffect, useState, useCallback } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import TrainDetailForm from "./form";
+import Button from "@/component/common/button";
+import DropDown from "@/component/common/dropdown";
+import Input from "@/component/common/input";
+import Title from "@/component/common/title";
 import useDrawer from "@/hooks/useDrawer";
-import Utils from "@/utils";
 import { DrawerOpen } from "@/state/drawer/slice";
-import { ageEnum } from "@/enums/shared-enums";
+import Utils from "@/utils";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import TrainDetailForm from "./form";
+import { ageFilter } from "@/utils/store";
 
 const initialFilter = {
   trainNumber: "All",
@@ -122,143 +126,119 @@ const TrainDetailPage = () => {
   };
 
   return (
-    <div className="relative h-full">
-      <div className="p-[5rem] h-full">
-        <div className="flex flex-row justify-between mb-3">
-          <h1 className="text-black-900 font-bold pb-2">
-            Train Details Summary
-          </h1>
-          <select
-            className="border-2 rounded-sm border-current"
-            name="trainNumber"
-            id="trainNumber"
-            value={filterModel.trainNumber}
-            onChange={(e) => updateFilterModal({ trainNumber: e.target.value })}
-          >
-            <option>select</option>
-            {trainNumberList &&
-              trainNumberList.length > 0 &&
-              trainNumberList.map((item, index) => (
-                <option key={index} value={item}>
-                  {item}
-                </option>
-              ))}
-          </select>
-          <select
-            className="border-2 rounded-sm border-current"
-            name="age"
-            id="age"
-            value={filterModel.age}
-            onChange={(e) => updateFilterModal({ age: e.target.value })}
-          >
-            {ageEnum &&
-              Object.keys(ageEnum).length > 0 &&
-              Object.keys(ageEnum).map((item, index) => (
-                <option key={index} value={item}>
-                  {item}
-                </option>
-              ))}
-          </select>
-          <select
-            className="border-2 rounded-sm border-current"
-            name="pnrNumber"
-            id="pnrNumber"
-            value={filterModel.PNRNumber}
-            onChange={(e) => updateFilterModal({ PNRNumber: e.target.value })}
-          >
-            <option>select</option>
-            {pnrNumber &&
-              pnrNumber.length > 0 &&
-              pnrNumber.map((item: any, index: any) => (
-                <option key={index} value={item}>
-                  {item}
-                </option>
-              ))}
-          </select>
-
-          <input
+    <div className="px-10 pb-4 pt-20 h-full relative">
+      <Title>Train Details Summary</Title>
+      <div className="flex gap-2 mt-3">
+        <DropDown
+          name="trainNumber"
+          value={filterModel.trainNumber}
+          onChange={(e) => updateFilterModal({ trainNumber: e.target.value })}
+          options={
+            trainNumberList?.map((item) => ({
+              value: item,
+              label: item,
+            })) || []
+          }
+        />
+        <DropDown
+          name="age"
+          value={filterModel.age}
+          onChange={(e) => updateFilterModal({ age: e.target.value })}
+          options={ageFilter}
+        />
+        <DropDown
+          name="pnrNumber"
+          value={filterModel.PNRNumber}
+          onChange={(e) => updateFilterModal({ PNRNumber: e.target.value })}
+          options={
+            pnrNumber?.map((item: any) => ({
+              value: item,
+              label: item,
+            })) || []
+          }
+        />
+      </div>
+      <div className="flex justify-between">
+        <div className="flex gap-2 my-3">
+          <Input
             className="border-2 rounded-sm border-current"
             type="date"
-            id="from"
             name="from"
             value={filterModel.fromDate}
             onChange={(e) => updateFilterModal({ fromDate: e.target.value })}
-          ></input>
-          <input
+          ></Input>
+          <Input
             className="border-2 rounded-sm border-current"
             type="date"
-            id="to"
             name="to"
             value={filterModel.toDate}
             onChange={(e) => updateFilterModal({ toDate: e.target.value })}
-          ></input>
+          ></Input>
 
-          <input
+          <Input
+            name=""
             className="border-2 rounded-sm border-current"
             type="text"
+            placeholder="Search anything..."
             value={filterModel.searchText}
             onChange={(e) => updateFilterModal({ searchText: e.target.value })}
           />
-          <button
-            className="bg-blue-300 border border-b-2 p-1"
+        </div>
+        <div className="flex gap-2 my-3">
+          <Button
+            variant="secondary"
             onClick={() => {
               Utils.resetRoute(router);
               setFilterModal(initialFilter);
             }}
           >
             Reset
-          </button>
-          <button
-            className="bg-blue-300 border border-b-2 p-1"
-            onClick={applyFilters}
-          >
+          </Button>
+          <Button variant="primary" onClick={applyFilters}>
             Apply
-          </button>
+          </Button>
         </div>
-        <table className="p-2 table-fixed border border-collapse border-spacing-3 border-slate-400 w-full">
-          <thead>
-            <tr className="border-b-2">
-              <th>Sr</th>
-              <th>PNRNumber</th>
-              <th>TrainNumber</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {trainData && trainData && trainData.length > 0 ? (
-              trainData.map((item: any, index: any) => (
-                <tr
-                  className="border-b-2 even:bg-gray-200 odd:bg-white"
-                  key={index + 1}
-                >
-                  <td className="text-center ">
-                    {" "}
-                    {(filterModel.currentPage - 1) * 50 + index + 1}
-                  </td>
-                  <td className="text-center ">
-                    {item.trainDetails.PNRNumber}
-                  </td>
-                  <td className="text-center">
-                    {item.trainDetails.trainNumber}
-                  </td>
-                  <td className="text-center">
-                    <FontAwesomeIcon
-                      className="cursor-pointer mr-3"
-                      icon={faEye}
-                      onClick={() => {
-                        onShowPassangersDetails(item._id);
-                      }}
-                    />
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td>no record found</td>
+      </div>
+      <table className="p-2 table-fixed border border-collapse border-spacing-3 border-slate-400 w-full">
+        <thead>
+          <tr className="border-b-2">
+            <th>Sr</th>
+            <th>PNRNumber</th>
+            <th>TrainNumber</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {trainData && trainData && trainData.length > 0 ? (
+            trainData.map((item: any, index: any) => (
+              <tr
+                className="border-b-2 even:bg-gray-200 odd:bg-white"
+                key={index + 1}
+              >
+                <td className="text-center ">
+                  {(filterModel.currentPage - 1) * 50 + index + 1}
+                </td>
+                <td className="text-center ">{item.trainDetails.PNRNumber}</td>
+                <td className="text-center">{item.trainDetails.trainNumber}</td>
+                <td className="text-center">
+                  <FontAwesomeIcon
+                    className="cursor-pointer mr-3"
+                    icon={faEye}
+                    onClick={() => {
+                      onShowPassangersDetails(item._id);
+                    }}
+                  />
+                </td>
               </tr>
-            )}
-          </tbody>
-        </table>
+            ))
+          ) : (
+            <tr>
+              <td>no record found</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+      <div className="py-8">
         <Pagination
           current={Number(filterModel.currentPage)}
           total={items}

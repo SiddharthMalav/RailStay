@@ -15,6 +15,7 @@ import { eHTTPStatusCode } from "@/enums/shared-enums";
 import useDrawer from "@/hooks/useDrawer";
 import useToast from "@/hooks/useToast";
 import { ToastType } from "@/state/toast/slice";
+import { roomFilter } from "@/utils/store";
 import { faStreetView } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -89,12 +90,11 @@ const HotelDetailList = () => {
   const startIndex = (currentPage - 1) * 10;
 
   return (
-    <div className="px-10 py-4 h-full">
+    <div className="px-10 pb-4 pt-20 h-full">
       <Title>Hotels Details</Title>
 
       <div className="flex flex-row justify-between mb-3">
         <div className="flex gap-2">
-          {" "}
           <Label>Search Name</Label>
           <Input
             className="border"
@@ -112,12 +112,7 @@ const HotelDetailList = () => {
           onChange={(e) => {
             updateSearchParams("occupancy", e.target.value);
           }}
-          options={[
-            { value: "", label: "All" },
-            { value: "Full", label: "Full" },
-            { value: "Empty", label: "Empty" },
-            { value: "Partial", label: "Partial" },
-          ]}
+          options={roomFilter}
         />
       </div>
       <table className="p-2 table-fixed border border-collapse border-spacing-3 border-slate-400 w-full">

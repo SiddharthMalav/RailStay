@@ -28,7 +28,6 @@ const SignInPage = () => {
     try {
       setIsLoading(true);
       const res = await apiUtil.post("/sign-in", data);
-      console.log("res", res);
 
       const response = await res.json();
       if (response.status == 200) {

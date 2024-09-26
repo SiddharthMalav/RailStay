@@ -1,12 +1,13 @@
-import { TrainPassangerDetailService } from "@/services/trainPassangerDetailSerivce/trainPassangerDetailSerivce";
+import { TrainPassangerDetailService } from "@/services/trainPassangerDetailSerivce";
 import { TrainPassangerDetailType } from "@/types/shared-types";
+import { IndexController } from ".";
 
-export class TrainPassangerDetailController {
+export class TrainPassangerDetailController extends IndexController {
   async getTrainToDataControl(props: TrainPassangerDetailType) {
     try {
       const service = new TrainPassangerDetailService();
       const resp = await service.getTrainPassangerRouteDetailService(props);
-      return resp;
+      return this.parse(resp);
     } catch (error) {
       console.log(
         "error wile calling service for getTrainToDataControl",
@@ -18,7 +19,7 @@ export class TrainPassangerDetailController {
     try {
       const service = new TrainPassangerDetailService();
       const resp = await service.getTrainPNRNumberService();
-      return resp;
+      return this.parse(resp);
     } catch (error) {
       console.log(
         "error wile calling service for getTrainPNRNumberControl",
@@ -30,7 +31,7 @@ export class TrainPassangerDetailController {
     try {
       const service = new TrainPassangerDetailService();
       const resp = await service.getTrainNumberService();
-      return resp;
+      return this.parse(resp);
     } catch (error) {
       console.log(
         "error wile calling service for getTrainNumberControl",
@@ -42,7 +43,7 @@ export class TrainPassangerDetailController {
     try {
       const service = new TrainPassangerDetailService();
       const resp = await service.getPersonDetailById(Id);
-      return resp;
+      return this.parse(resp);
     } catch (error) {
       console.log(
         "error wile calling service for getPersonDetailByIdControl",

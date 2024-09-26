@@ -2,20 +2,22 @@
 
 import TrainRowDetailModal from "./view-row";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { useSearchParams, useRouter } from "next/navigation";
-import useModal from "@/hooks/useModal";
-import Utils from "@/utils";
-import { TrainListType } from "@/types/shared-types";
-import { Pagination } from "antd";
-import { trainStatusEnum } from "@/enums/shared-enums";
-import { ModalSize } from "@/state/modal/slice";
 import {
   getTrainFromDataActions,
   getTrainListActions,
   getTrainToDataActions,
 } from "@/actions";
+import DropDown from "@/component/common/dropdown";
+import Title from "@/component/common/title";
+import useModal from "@/hooks/useModal";
+import { ModalSize } from "@/state/modal/slice";
+import { TrainListType } from "@/types/shared-types";
+import Utils from "@/utils";
+import { Pagination } from "antd";
+import { useRouter, useSearchParams } from "next/navigation";
+import { trainStatusFilter } from "@/utils/store";
 
 type TrainData = {
   from: string;
@@ -108,59 +110,34 @@ const Train = () => {
   };
 
   return (
-    <div className="p-[5rem] h-full">
-      <div className="flex flex-row justify-between mb-3">
-        <h1 className="text-black-900 font-bold pb-2">Train Summary</h1>
-        <select
-          className="border-2 rounded-sm border-current"
-          name="status"
-          value={filterModel.status}
-          id="status"
+    <div className="px-10 pb-4 pt-20 h-full">
+      <Title>Train Details</Title>
+      <div className="flex gap-2 mb-3">
+        <DropDown
           onChange={(e) =>
             updateFilterModal({ status: e.target.value, currentPage: 1 })
           }
-        >
-          {trainStatusEnum &&
-            Object.values(trainStatusEnum).map((status) => (
-              <option key={status} value={status}>
-                {status}
-              </option>
-            ))}
-        </select>
-        <select
-          className="border-2 rounded-sm border-current"
+          name={"status"}
+          options={trainStatusFilter}
+        />
+        <DropDown
           name="from"
-          id="from"
           value={filterModel.from}
           onChange={(e) =>
             updateFilterModal({ from: e.target.value, currentPage: 1 })
           }
-        >
-          {trainFromData &&
-            trainFromData.length > 0 &&
-            trainFromData.map((item, index) => (
-              <option key={index} value={item}>
-                {item}
-              </option>
-            ))}
-        </select>
-        <select
-          className="border-2 rounded-sm border-current"
-          name="from"
-          id="from"
+          options={trainFromData.map((item) => ({ value: item, label: item }))}
+        />
+
+        <DropDown
+          name="to"
           value={filterModel.to}
           onChange={(e) =>
             updateFilterModal({ to: e.target.value, currentPage: 1 })
           }
-        >
-          {trainToData &&
-            trainToData.length > 0 &&
-            trainToData.map((item, index) => (
-              <option key={index} value={item}>
-                {item}
-              </option>
-            ))}
-        </select>
+          options={trainToData.map((item) => ({ value: item, label: item }))}
+        />
+
         {/* 
                This button will use in future for multi filter use on one time
         */}
@@ -176,52 +153,58 @@ const Train = () => {
       {trains && trains.length > 0 ? (
         <>
           <table className="p-2 table-fixed border border-collapse border-spacing-3 border-slate-400 w-full">
-            <tr className="border-b-2">
-              <th>Sr</th>
-              <th>Train Number</th>
-              <th>status</th>
-              <th>From</th>
-              <th>To</th>
-              <th>Kids</th>
-              <th>Young</th>
-              <th>old</th>
-            </tr>
-
-            {trains &&
-              trains &&
-              trains.map((item: any, index: any) => (
-                <tr
-                  className="border-b-2 even:bg-gray-200 odd:bg-white"
-                  key={index + 1}
-                >
-                  <td className="text-center ">
-                    {(filterModel.currentPage - 1) * 10 + index + 1}
-                  </td>
-                  {Object.keys(item).map((data: string, index: number) => (
-                    <td
-                      key={index}
-                      className={`text-center ${
-                        data === "trainNumber" ? "cursor-pointer" : ""
-                      }`}
-                      onClick={() =>
-                        data === "trainNumber" ? onShowRowDataToModal(item) : {}
-                      }
-                    >
-                      {(item[data] && item[data]) ?? "Undefined"}
+            <thead>
+              <tr className="border-b-2">
+                <th>Sr</th>
+                <th>Train Number</th>
+                <th>status</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Kids</th>
+                <th>Young</th>
+                <th>old</th>
+              </tr>
+            </thead>
+            <tbody>
+              {trains &&
+                trains &&
+                trains.map((item: any, index: any) => (
+                  <tr
+                    className="border-b-2 even:bg-gray-200 odd:bg-white"
+                    key={index + 1}
+                  >
+                    <td className="text-center ">
+                      {(filterModel.currentPage - 1) * 10 + index + 1}
                     </td>
-                  ))}
-                </tr>
-              ))}
+                    {Object.keys(item).map((data: string, index: number) => (
+                      <td
+                        key={index}
+                        className={`text-center ${
+                          data === "trainNumber" ? "cursor-pointer" : ""
+                        }`}
+                        onClick={() =>
+                          data === "trainNumber"
+                            ? onShowRowDataToModal(item)
+                            : {}
+                        }
+                      >
+                        {(item[data] && item[data]) ?? "Undefined"}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+            </tbody>
           </table>
-
-          <Pagination
-            current={Number(filterModel.currentPage)}
-            total={items}
-            pageSize={10}
-            onChange={(page, pageSize) => {
-              updateFilterModal({ currentPage: page });
-            }}
-          />
+          <div className="py-8">
+            <Pagination
+              current={Number(filterModel.currentPage)}
+              total={items}
+              pageSize={10}
+              onChange={(page, pageSize) => {
+                updateFilterModal({ currentPage: page });
+              }}
+            />
+          </div>
         </>
       ) : (
         <p>No Data Found</p>

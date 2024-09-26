@@ -184,8 +184,7 @@ export class TrainService {
         countResult.length > 0 ? countResult[0].totalRecord : 0;
 
       const res = {
-        data: JSON.parse(JSON.stringify(data)),
-        // data: JSON.parse(JSON.stringify(data)),
+        data: data,
         totalRecord: totalRecord,
       };
 
@@ -194,10 +193,9 @@ export class TrainService {
       return {
         success: false,
         statusCode: error.statusCode,
-        message: error.message, // Get the error message
+        message: error.message,
         stack: process.env.NODE_ENV === "development" ? error.stack : undefined, // Stack trace only in development mode
       };
-      // return error;
     }
   }
 }

@@ -7,8 +7,8 @@
 
 import { BookingController } from "@/controllers/booking";
 import { HotelController } from "@/controllers/hotel";
-import { TrainController } from "@/controllers/trainController/trainController";
-import { TrainPassangerDetailController } from "@/controllers/trainPassangerDetailController/trainPassangerDetailController";
+import { TrainController } from "@/controllers/trainController";
+import { TrainPassangerDetailController } from "@/controllers/trainPassangerDetailController";
 import { UserController } from "@/controllers/user";
 import { TBookingParams, THotelParams, TrainListType, TrainPassangerDetailType, TUser } from "@/types/shared-types";
 

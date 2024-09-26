@@ -21,3 +21,20 @@ export type TUser = {
   number: string | number;
   pincode: string | number;
 };
+
+export type TrainListType = {
+  noOfRecord: number;
+  currentPage: number;
+  status: string;
+  from: string;
+  to: string;
+};
+export type TrainPassangerDetailType = {
+  searchText?: string | null;
+  currentPage: number;
+  PNRNumber?: string | null;
+  trainNumber?: string | null;
+  fromDate?: string | null;
+  toDate?: string | null;
+  age?: string | null;
+};

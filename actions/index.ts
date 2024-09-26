@@ -7,8 +7,79 @@
 
 import { BookingController } from "@/controllers/booking";
 import { HotelController } from "@/controllers/hotel";
+import { TrainController } from "@/controllers/trainController/trainController";
+import { TrainPassangerDetailController } from "@/controllers/trainPassangerDetailController/trainPassangerDetailController";
 import { UserController } from "@/controllers/user";
-import { TBookingParams, THotelParams, TUser } from "@/types/shared-types";
+import { TBookingParams, THotelParams, TrainListType, TrainPassangerDetailType, TUser } from "@/types/shared-types";
+
+export async function getTrainToDataActions() {
+  try {
+    const train = new TrainController();
+    const data = await train.getTrainToDataControl();
+    return data;
+  } catch (error) {
+    console.log("getTrainToDataActions", error);
+  }
+}
+export async function getTrainFromDataActions() {
+  try {
+    const train = new TrainController();
+    const data = await train.getTrainFromDataControl();
+    return data;
+  } catch (error) {
+    console.log("getTrainFromDataActions", error);
+  }
+}
+export async function getTrainListActions(porps: TrainListType) {
+  try {
+    const train = new TrainController();
+    const data = await train.getTrainListControl(porps);
+    return data;
+  } catch (error) {
+    console.log("getTrainListActions", error);
+    return error;
+  }
+}
+
+///TrainPassangerDetail Action
+export async function getTrainPassangerDetailListActions(
+  props: TrainPassangerDetailType
+) {
+  try {
+    const trainPassangeDetail = new TrainPassangerDetailController();
+    const data = await trainPassangeDetail.getTrainToDataControl(props);
+    return data;
+  } catch (error) {
+    console.log("getTrainPassangerDetailListActions", error);
+  }
+}
+export async function getTrainPNRNumberActions() {
+  try {
+    const trainPassangeDetail = new TrainPassangerDetailController();
+    const data = await trainPassangeDetail.getTrainPNRNumberControl();
+    return data;
+  } catch (error) {
+    console.log("getTrainPassangerDetailListActions", error);
+  }
+}
+export async function getTrainNumberActions() {
+  try {
+    const trainPassangeDetail = new TrainPassangerDetailController();
+    const data = await trainPassangeDetail.getTrainNumberControl();
+    return data;
+  } catch (error) {
+    console.log("getTrainPassangerDetailListActions", error);
+  }
+}
+export async function getPersonDetailByIdActions(Id: string) {
+  try {
+    const trainPassangeDetail = new TrainPassangerDetailController();
+    const data = await trainPassangeDetail.getPersonDetailByIdControl(Id);
+    return data;
+  } catch (error) {
+    console.log("getTrainNumberActions", error);
+  }
+}
 
 export async function getHotelDataAction(data: THotelParams) {
   const controller = new HotelController();

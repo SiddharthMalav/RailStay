@@ -59,13 +59,13 @@ const Navbar = () => {
           </div>
 
           {/* Links Section */}
-          <div className="hidden md:block">
+          <div className="  flex items-center">
             <Link href="/">
               <span className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                 Home
               </span>
             </Link>
-            <div className="ml-10 flex items-baseline space-x-4">
+            <div className=" flex items-baseline ">
               <DropDownNav
                 navGroup={[
                   { item: "Hotels", path: "/hotel-list" },
@@ -75,6 +75,14 @@ const Navbar = () => {
                 Hotels
               </DropDownNav>
 
+              <DropDownNav
+                navGroup={[
+                  { item: "trains", path: "/trains" },
+                  { item: "trains-detial", path: "/train-detail" },
+                ]}
+              >
+                Trains
+              </DropDownNav>
               <DropDownNav
                 navGroup={[
                   { item: "Sample", path: "/sample-form" },

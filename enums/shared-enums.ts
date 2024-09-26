@@ -19,3 +19,16 @@ export enum sizes {
   lg = "text-lg",
   xl = "text-xl",
 }
+
+export enum trainStatusEnum {
+  Running = "Running",
+  Not_Running = "Not Running",
+  Hold = "Hold",
+  All = "All",
+}
+export enum ageEnum {
+  All = "All",
+  Kids = "Kids",
+  Young = "Young",
+  Old = "Old",
+}

@@ -9,9 +9,12 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
+    "types": ["mongoose"],
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "plugins": [
       {
         "name": "next"

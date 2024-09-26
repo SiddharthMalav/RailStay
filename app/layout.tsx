@@ -1,6 +1,12 @@
+import DrawerContainer from "@/component/common/drawer-container/index";
+import ModalContainer from "@/component/common/modal-container";
+import Navbar from "@/component/common/navbar";
+import ToastContainer from "@/component/common/toast-container/index";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import ReduxProvider from "./store-provider";
+import ErrorBoundary from "@/component/common/errorBoundary";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +22,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className} suppressHydrationWarning={true}>
+        <ReduxProvider>
+        <ErrorBoundary>
+          <Navbar />
+          {children}
+          <DrawerContainer />
+          <ModalContainer />
+          <ToastContainer time={2000} />
+          </ErrorBoundary>
+        </ReduxProvider>
+      </body>
     </html>
   );
 }

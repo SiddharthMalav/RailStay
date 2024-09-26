@@ -7,6 +7,61 @@ declare const document: any;
 declare const Element: any;
 
 export default class Utils {
+  static routeCreate(data: any, queryParams: any, router: any) {
+    for (let i = 0; i < data.length; i++) {
+      queryParams.append(
+        `${Object.keys(data[i])[0]}`,
+        Object.values(data[i])[0]
+      );
+    }
+
+    router.push(`${window.location.pathname}?${queryParams.toString()}`);
+  }
+
+  // //return params from query string
+  // static getQuery() {
+  //   const queryParams = new URLSearchParams(window.location.search);
+  //   const paramsObject: { [key: string]: string } = {};
+  //   queryParams.forEach((value: string, key: string) => {
+  //     paramsObject[key] = value;
+  //   });
+  //   return paramsObject;
+  // }
+
+  static getQuery() {
+    if (typeof window !== "undefined") {
+      const queryParams = new URLSearchParams(window.location.search);
+      const paramsObject: { [key: string]: string } = {};
+      queryParams.forEach((value: string, key: string) => {
+        paramsObject[key] = value;
+      });
+      return paramsObject;
+    }
+
+    // Return an empty object or handle server-side logic here if needed
+    return {};
+  }
+
+  //for creating new route
+  static updateQueryParams(
+    filterModel: {
+      [key: string]: string | number;
+    },
+    router: any
+  ) {
+    const queryParams = new URLSearchParams(window.location.search);
+    Object.entries(filterModel).forEach(([key, value]) => {
+      queryParams.set(key, value.toString()); // Convert value to string if it's a number
+    });
+    router.push(`${window.location.pathname}?${queryParams.toString()}`);
+  }
+
+  //reseting route to initial stage
+  static resetRoute(router: any) {
+    console.log("window.location.pathname", window.location.pathname);
+    router.push(`${window.location.pathname}`);
+  }
+
   // fullscreen mode
   static upFullScreen() {
     // ## The below if statement seems to work better ## if ((document.fullScreenElement && document.fullScreenElement !== null) || (document.msfullscreenElement && document.msfullscreenElement !== null) || (!document.mozFullScreen && !document.webkitIsFullScreen)) {

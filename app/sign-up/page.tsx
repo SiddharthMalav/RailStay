@@ -120,7 +120,7 @@ const SignUpPage = () => {
                     errors.email ? "border-red-500" : "border-gray-300"
                   } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                   {...register("email", {
-                    required: "Email or User Name is required",
+                    required: "Email is required",
                   })}
                 />
                 {errors.email && (

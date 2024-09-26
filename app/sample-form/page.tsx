@@ -99,7 +99,7 @@ const ModalList = () => {
   const startIndex = (currentPage - 1) * 10;
 
   return (
-    <div className="px-10 py-4 h-full">
+    <div className="px-10 pb-4 pt-20 h-full">
       <Title>User Details</Title>
       <div className="flex flex-row justify-between mb-3">
         <div className="flex gap-2">
@@ -108,6 +108,7 @@ const ModalList = () => {
             className="border"
             type="text"
             value={searchQuery}
+            placeholder={"search anything..."}
             name={""}
             onChange={(e) => {
               updateSearchParams("searchQuery", e.target.value);
@@ -164,7 +165,6 @@ const ModalList = () => {
         </tbody>
       </table>
       <div className="py-8">
-        {" "}
         <Pagination
           itemsPerPage={10}
           items={totalItems}

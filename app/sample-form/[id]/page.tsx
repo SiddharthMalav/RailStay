@@ -69,7 +69,7 @@ export default function SampleForm({ params }: any) {
   };
 
   return (
-    <div className="p-4">
+    <div className="px-10 py-4 pt-20 h-full">
       <Title>User Form</Title>
       <hr className="py-2" />
       <form onSubmit={handleSubmit(onSubmit)}>

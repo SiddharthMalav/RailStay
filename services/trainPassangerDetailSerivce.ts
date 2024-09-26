@@ -87,11 +87,10 @@ export class TrainPassangerDetailService {
       const totalRecord =
         totalRecordResult.length > 0 ? totalRecordResult[0].totalRecords : 0;
 
-      return { data: JSON.parse(JSON.stringify(responseData)), totalRecord };
-      // return { data: JSON.parse(JSON.stringify(responseData)), totalRecord };
+      return { data: responseData, totalRecord };
     } catch (e) {
       console.error("Error in getTrainPassangerRouteDetailService:", e);
-      throw e; // Ensure errors are thrown to be handled by higher-level error handlers
+      throw e;
     }
   }
 
@@ -117,9 +116,8 @@ export class TrainPassangerDetailService {
       if (!personDetail) {
         return { error: "Person not found" };
       }
-      return { data: JSON.parse(JSON.stringify(personDetail)) };
+      return { data: personDetail };
     } catch (error) {
-      // Handle any errors (e.g., invalid ID format)
       return { error: "An error occurred while fetching the details" };
     }
   }

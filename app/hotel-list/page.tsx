@@ -89,12 +89,11 @@ const HotelDetailList = () => {
   const startIndex = (currentPage - 1) * 10;
 
   return (
-    <div className="px-10 py-4 h-full">
+    <div className="px-10 pb-4 pt-20 h-full">
       <Title>Hotels Details</Title>
 
       <div className="flex flex-row justify-between mb-3">
         <div className="flex gap-2">
-          {" "}
           <Label>Search Name</Label>
           <Input
             className="border"

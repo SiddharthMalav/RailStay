@@ -4,12 +4,13 @@
 "use client";
 
 import { eHTTPStatusCode } from "@/enums/shared-enums";
+import useScrollTrigger from "@/hooks/scrollTrigger";
 import { getCookie, removeCookie } from "@/utils/utils";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import DropDownNav from "../drop-down-nav";
-import useScrollTrigger from "@/hooks/scrollTrigger";
 
 const Navbar = () => {
   const router = useRouter();
@@ -46,16 +47,27 @@ const Navbar = () => {
   return (
     <nav
       className={`bg-${
-        scroll || pathName != "/" ? "gray-800" : "transparent"
+        scroll || pathName != "/"
+          ? "gray-800"
+          : "bg-black bg-opacity-61 backdrop-filter backdrop-blur-lg"
       }  fixed w-full z-10 `}
     >
       <div className="mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
           {/* Logo Section */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 flex gap-4">
             <Link href="/">
-              <span className="text-white text-xl font-bold">{userName}</span>
+              <Image
+                src="/assets/images/image.png"
+                alt=""
+                className="rounded-lg bg-gray-100"
+                width={40}
+                height={40}
+              />
             </Link>
+            <div className="flex items-center text-white text-xl font-bold">
+              {userName}
+            </div>
           </div>
 
           {/* Links Section */}
@@ -78,7 +90,7 @@ const Navbar = () => {
               <DropDownNav
                 navGroup={[
                   { item: "trains", path: "/trains" },
-                  { item: "trains-detial", path: "/train-detail" },
+                  { item: "trains-detail", path: "/train-detail" },
                 ]}
               >
                 Trains
@@ -86,7 +98,6 @@ const Navbar = () => {
               <DropDownNav
                 navGroup={[
                   { item: "Sample", path: "/sample-form" },
-                  { item: "Sample Api", path: "/sample-form-api" },
                   { item: "Drawer", path: "/drawer-form" },
                   { item: "Modal", path: "/modal-form" },
                 ]}

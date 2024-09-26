@@ -1,15 +1,14 @@
-import { TrainService } from "@/services/trainsServices/trainsServices";
+import { TrainService } from "@/services/trainsServices";
 import { TrainListType } from "@/types/shared-types";
+import { IndexController } from ".";
 
-export class TrainController {
+export class TrainController extends IndexController {
   async getTrainToDataControl() {
     try {
       const service = new TrainService();
       const resp = await service.getTrainToDataService();
-
-      return resp;
+      return this.parse(resp);
     } catch (error) {
-      console.log("getTrainToDataControl", error);
       return error;
     }
   }
@@ -17,21 +16,18 @@ export class TrainController {
     try {
       const service = new TrainService();
       const resp = await service.getTrainFromDataService();
-
-      return resp;
+      return this.parse(resp);
     } catch (error) {
-      console.log("getTrainFromDataControl", error);
+      return error;
     }
   }
   async getTrainListControl(props: TrainListType) {
     try {
       const service = new TrainService();
       const resp = await service.getTrainListService(props);
-
-      return resp;
+      return this.parse(resp);
     } catch (error) {
       return error;
-      console.log("getTrainListControl", error);
     }
   }
 }

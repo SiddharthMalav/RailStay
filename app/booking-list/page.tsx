@@ -105,7 +105,7 @@ const BookingDetailList = () => {
   };
 
   return (
-    <div className="px-10 py-4 h-full">
+    <div className="px-10 pb-4 pt-20 h-full">
       <Title>Booking Details</Title>
       <div className="flex flex-row pt-2 justify-between mb-3">
         <Label>Search Name</Label>
@@ -185,7 +185,6 @@ const BookingDetailList = () => {
         </tbody>
       </table>
       <div className="py-8">
-        {" "}
         <Pagination
           itemsPerPage={10}
           items={totalItems}

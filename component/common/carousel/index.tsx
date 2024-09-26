@@ -12,11 +12,10 @@ interface CarouselProps {
 const Carousel: React.FC<CarouselProps> = (props: CarouselProps) => (
   <AliceCarousel
     autoPlay
-    autoPlayControls
     autoPlayStrategy="none"
-    autoPlayInterval={1000}
-    animationDuration={1000}
-    animationType="fadeout"
+    autoPlayInterval={2000}
+    animationDuration={800}
+    animationType="slide"
     infinite
     touchTracking={false}
     disableDotsControls

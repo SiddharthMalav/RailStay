@@ -58,7 +58,6 @@ export default class Utils {
 
   //reseting route to initial stage
   static resetRoute(router: any) {
-    console.log("window.location.pathname", window.location.pathname);
     router.push(`${window.location.pathname}`);
   }
 

@@ -8,6 +8,7 @@ import { getBookingDataAction } from "@/actions/index";
 import PaymentDetailList from "@/app/booking-list/payment-list";
 import Input from "@/component/common/input";
 import Label from "@/component/common/label";
+import TableHeader from "@/component/common/table-header";
 import Title from "@/component/common/title";
 import { eHTTPStatusCode } from "@/enums/shared-enums";
 import useModal from "@/hooks/useModal";
@@ -38,6 +39,8 @@ const initialFilter = {
   endDate: "",
   currentPage: 1,
   noOfRecord: 10,
+  Order: "A",
+  Key: "Sr",
 };
 
 const BookingDetailList = () => {
@@ -137,11 +140,39 @@ const BookingDetailList = () => {
         <thead>
           <tr className="border-b">
             <th>Sr</th>
-            <th>Customer Name</th>
-            <th>Address</th>
+            <TableHeader
+              Order={filterModel.Order}
+              updateFilterModal={updateFilterModal}
+              columnKey={filterModel.Key}
+              keyValue="name"
+            >
+              Customer Name
+            </TableHeader>
+            <TableHeader
+              Order={filterModel.Order}
+              updateFilterModal={updateFilterModal}
+              columnKey={filterModel.Key}
+              keyValue="address"
+            >
+              Address
+            </TableHeader>
             <th>Number</th>
-            <th>Check In</th>
-            <th>Check Out</th>
+            <TableHeader
+              Order={filterModel.Order}
+              updateFilterModal={updateFilterModal}
+              columnKey={filterModel.Key}
+              keyValue="checkIn"
+            >
+              Check In
+            </TableHeader>
+            <TableHeader
+              Order={filterModel.Order}
+              updateFilterModal={updateFilterModal}
+              columnKey={filterModel.Key}
+              keyValue="checkOut"
+            >
+              Check Out
+            </TableHeader>
             <th>Hotel Name</th>
             <th>Room Name</th>
             <th>Actions</th>

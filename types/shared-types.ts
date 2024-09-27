@@ -5,12 +5,16 @@ export type THotelParams = {
   searchQuery: string;
   currentPage: number | string;
   occupancy: number | string;
+  Order: string;
+  Key: string;
 };
 export type TBookingParams = {
   searchQuery: string;
   startDate: string;
   endDate: string;
   currentPage: number | string;
+  Order: string;
+  Key: string;
 };
 export type TUser = {
   name: string;
@@ -28,6 +32,8 @@ export type TrainListType = {
   status: string;
   from: string;
   to: string;
+  Order: string;
+  Key: string;
 };
 export type TrainPassangerDetailType = {
   searchText?: string | null;
@@ -37,4 +43,6 @@ export type TrainPassangerDetailType = {
   fromDate?: string | null;
   toDate?: string | null;
   age?: string | null;
+  Order: string;
+  Key: string;
 };

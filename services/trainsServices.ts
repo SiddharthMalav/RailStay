@@ -26,7 +26,6 @@ export class TrainService {
       };
 
       const getToken = getDataFromToken();
-      console.log("getToken", getToken);
       // const { noOfRecord, currentPage, status, from, to } = props;
 
       const skip = (currentPage - 1) * noOfRecord;

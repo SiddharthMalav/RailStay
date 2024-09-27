@@ -1,14 +1,23 @@
 // middleware.ts
-import { getCookie } from "@/utils/utils";
+import { isAuthLogin } from "@/utils/utils";
+import mongoose from "mongoose";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { Mongo } from "./config/db-connection";
 
 export async function middleware(request: NextRequest) {
-  console.log("middleware");
-  const token = await getCookie("token");
-  if (token === null || token === undefined) {
+  const token = await isAuthLogin();
+  if (!token) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
+  if (mongoose && mongoose.connection && !mongoose.connection.readyState) {
+    const mongo = new Mongo();
+    await mongo.connect();
+  }
+  // const token = await getCookie("token");
+  // if (token === null || token === undefined) {
+  //   return NextResponse.redirect(new URL("/sign-in", request.url));
+  // }
   // try {
   // if (!mongoose.connection.readyState) {
   //     const mongo = new Mongo();
@@ -30,5 +39,5 @@ export const config = {
     "/train-detail/:path",
     "/modal-form/:path",
     "/sample-form/:path",
-    ],
+  ],
 };

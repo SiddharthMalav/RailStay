@@ -8,12 +8,11 @@ import useScrollTrigger from "@/hooks/scrollTrigger";
 import { getCookie, removeCookie } from "@/utils/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import DropDownNav from "../drop-down-nav";
 
 const Navbar = () => {
-  const router = useRouter();
   const pathName = usePathname();
   const [userName, setUserName] = useState("");
   const scroll = useScrollTrigger();
@@ -40,7 +39,9 @@ const Navbar = () => {
     }
   }
   useEffect(() => {
-    getUserDetail();
+    if (pathName != "/sign-in" && pathName != "/sign-up") {
+      getUserDetail();
+    }
   }, [pathName]);
 
   if (pathName == "/sign-in" || pathName == "/sign-up") {

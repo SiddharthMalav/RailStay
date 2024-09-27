@@ -9,19 +9,40 @@ import {
   getUserByIdAction,
   updateUserAction,
 } from "@/actions/index";
-import Button from "@/component/common/button";
-import DropDown from "@/component/common/dropdown";
+
+import * as Yup from "yup";
+import { useEffect } from "react";
+import { gender } from "@/utils/store";
+import useToast from "@/hooks/useToast";
+import { FaCheck } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 import Input from "@/component/common/input";
 import Label from "@/component/common/label";
 import Title from "@/component/common/title";
-import useToast from "@/hooks/useToast";
-import { ToastType } from "@/state/toast/slice";
 import { TUser } from "@/types/shared-types";
-import { gender } from "@/utils/store";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import Button from "@/component/common/button";
+import { ToastType } from "@/state/toast/slice";
+import DropDown from "@/component/common/dropdown";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { FaCheck } from "react-icons/fa";
+
+// Define Yup validation schema
+
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required("Name is required"),
+  age: Yup.number()
+    .typeError("Age must be a number")
+    .required("Age is required"),
+  gender: Yup.string().required("Gender is required"),
+  address: Yup.string().required("Address is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  number: Yup.string()
+    .matches(/^[0-9]{10}$/, "Number must be 10 digits")
+    .required("Number is required"),
+  pincode: Yup.string()
+    .matches(/^[0-9]{6}$/, "Pincode must be 6 digits")
+    .required("Pincode is required"),
+});
 
 export default function SampleForm({ params }: any) {
   const { onShowToast } = useToast();
@@ -33,7 +54,9 @@ export default function SampleForm({ params }: any) {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<TUser>();
+  } = useForm<any>({
+    resolver: yupResolver(validationSchema),
+  });
 
   useEffect(() => {
     if (id != "addNewUser") initialiseValue();

@@ -3,14 +3,14 @@
  */
 "use client";
 
-import { eHTTPStatusCode } from "@/enums/shared-enums";
-import useScrollTrigger from "@/hooks/scrollTrigger";
-import { getCookie, removeCookie } from "@/utils/utils";
-import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import Image from "next/image";
 import DropDownNav from "../drop-down-nav";
+import { useEffect, useState } from "react";
+import useScrollTrigger from "@/hooks/scrollTrigger";
+import { eHTTPStatusCode } from "@/enums/shared-enums";
+import { getCookie, removeCookie } from "@/utils/utils";
+import { usePathname, useRouter } from "next/navigation";
 
 const Navbar = () => {
   const router = useRouter();
@@ -89,8 +89,8 @@ const Navbar = () => {
 
               <DropDownNav
                 navGroup={[
-                  { item: "trains", path: "/trains" },
-                  { item: "trains-detail", path: "/train-detail" },
+                  { item: "Trains", path: "/trains" },
+                  { item: "Trains-detail", path: "/train-detail" },
                 ]}
               >
                 Trains

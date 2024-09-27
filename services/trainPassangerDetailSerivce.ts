@@ -1,5 +1,8 @@
-import { trainPassangerRouteDetail } from "@/schemas/trainPassangerRouteDetail";
+/**
+ * Service class for managing train and passanger-related operations.
+ */
 import { TrainPassangerDetailType } from "@/types/shared-types";
+import { trainPassangerRouteDetail } from "@/schemas/trainPassangerRouteDetail";
 
 export class TrainPassangerDetailService {
   async getTrainPassangerRouteDetailService(props: TrainPassangerDetailType) {

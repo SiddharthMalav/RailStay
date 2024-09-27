@@ -1,5 +1,5 @@
 import React from "react";
-import { Controller, Control } from "react-hook-form";
+import { Control, Controller } from "react-hook-form";
 
 type CustomInputControllerProps = {
   name: string;
@@ -14,7 +14,7 @@ const CustomInputController: React.FC<CustomInputControllerProps> = ({
   name,
   control,
   placeholder = "",
-  className = "border-2 border-black border-solid rounded-md p-0.5", // Default styles
+  className = "border-1 border-black border-solid rounded-md p-0.5", // Default styles
   type = "text",
   defaultValue = "",
 }) => {

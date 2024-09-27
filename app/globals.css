@@ -16,3 +16,6 @@ table > tbody > tr > td {
   padding-bottom: 0.5rem;
   color: rgba(0, 0, 0, 0.815);
 }
+table {
+  border-color: #cbd5e1 !important;
+}

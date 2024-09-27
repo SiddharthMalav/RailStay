@@ -144,7 +144,7 @@ const Train = () => {
         */}
         {/* <div>
           <button
-            className="bg-blue-300 border border-b-2 p-1"
+            className="bg-blue-300 border border-b p-1"
             onClick={() => fetchTrainListData(filterModel)}
           >
             Apply
@@ -155,7 +155,7 @@ const Train = () => {
         <>
           <table className="p-2 table-fixed border border-collapse border-spacing-3 border-slate-400 w-full">
             <thead>
-              <tr className="border-b-2">
+              <tr className="border-b">
                 <th>Sr</th>
                 <th>Train Number</th>
                 <th>status</th>
@@ -171,7 +171,7 @@ const Train = () => {
                 trains &&
                 trains.map((item: any, index: any) => (
                   <tr
-                    className="border-b-2 even:bg-gray-200 odd:bg-white"
+                    className="border-b even:bg-gray-200 odd:bg-white"
                     key={index + 1}
                   >
                     <td className="text-center ">

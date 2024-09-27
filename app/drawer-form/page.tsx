@@ -130,7 +130,7 @@ const SampleList = () => {
       </div>
       <table className="p-2 table-fixed border border-collapse border-spacing-3 border-slate-400 w-full">
         <thead>
-          <tr className="border-b-2">
+          <tr className="border-b">
             <th>Sr</th>
             <th>Name</th>
             <th>Number</th>
@@ -145,7 +145,7 @@ const SampleList = () => {
           {userList &&
             userList.map((item, index: number) => (
               <tr
-                className="border-b-2 even:bg-gray-200 odd:bg-white"
+                className="border-b even:bg-gray-200 odd:bg-white"
                 key={index + 1}
               >
                 <td className="text-center ">{startIndex + index + 1}</td>

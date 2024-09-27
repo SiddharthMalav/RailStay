@@ -1,3 +1,7 @@
+/**
+ * Mongoose schema for managing train details.
+ * Defines fields for train related data.
+ */
 import mongoose from "mongoose";
 
 const trainSchema = new mongoose.Schema({

@@ -1,23 +1,24 @@
+/**
+ * Component for displaying train details with filters and pagination.
+ * Handles dynamic URL parameters for search and occupancy filtering.
+ */
 "use client";
-
-import TrainRowDetailModal from "./view-row";
-
-import { useEffect, useState } from "react";
-
 import {
   getTrainFromDataActions,
   getTrainListActions,
   getTrainToDataActions,
 } from "@/actions";
-import DropDown from "@/component/common/dropdown";
-import Title from "@/component/common/title";
-import useModal from "@/hooks/useModal";
-import { ModalSize } from "@/state/modal/slice";
-import { TrainListType } from "@/types/shared-types";
 import Utils from "@/utils";
 import { Pagination } from "antd";
-import { useRouter, useSearchParams } from "next/navigation";
+import useModal from "@/hooks/useModal";
+import { useEffect, useState } from "react";
+import TrainRowDetailModal from "./view-row";
+import Title from "@/component/common/title";
+import { ModalSize } from "@/state/modal/slice";
 import { trainStatusFilter } from "@/utils/store";
+import DropDown from "@/component/common/dropdown";
+import { TrainListType } from "@/types/shared-types";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type TrainData = {
   from: string;

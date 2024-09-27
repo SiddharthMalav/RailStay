@@ -1,3 +1,6 @@
+/**
+ * Service class for managing train-related operations.
+ */
 import { getDataFromToken } from "@/helpers/getDataFromToken";
 import { trains } from "@/schemas/trains";
 import { TrainListType } from "@/types/shared-types";

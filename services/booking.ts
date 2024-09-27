@@ -15,7 +15,12 @@ export class BookingService {
         endDate = "",
         startDate = "",
         searchQuery = "",
+        Order,
+        Key,
       } = data;
+      const sortStage = {
+        [Key]: Order === "A" ? 1 : -1, // Ascending (1) or Descending (-1)
+      };
       const bookings = await BookingModel.aggregate([
         {
           $project: {
@@ -53,6 +58,7 @@ export class BookingService {
               $match: { checkOut: { $lte: new Date(endDate + "T23:59:59Z") } },
             },
           ] as any)),
+        { $sort: sortStage },
         {
           $skip: ((currentPage as number) - 1) * itemPerPage,
         },

@@ -8,9 +8,19 @@ import Hotel from "../schemas/hotelList";
 
 export class HotelService {
   async getHotelListService(data: THotelParams) {
-    const { currentPage = 1, occupancy = "", searchQuery = "" } = data;
+    const {
+      currentPage = 1,
+      occupancy = "",
+      searchQuery = "",
+      Order,
+      Key,
+    } = data;
     const itemPerPage = 10;
     try {
+      const sortStage = {
+        [Key]: Order === "A" ? 1 : -1, // Ascending (1) or Descending (-1)
+      };
+
       const hotels = await Hotel.aggregate([
         {
           $project: {
@@ -38,6 +48,7 @@ export class HotelService {
             { $match: { name: { $regex: searchQuery, $options: "i" } } },
           ] as any)),
         ...(occupancy && ([{ $match: { occupancy: occupancy } }] as any)),
+        { $sort: sortStage },
         {
           $skip: ((currentPage as number) - 1) * itemPerPage,
         },

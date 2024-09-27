@@ -19,14 +19,14 @@ export class TrainService {
 
   async getTrainListService(props: TrainListType) {
     try {
-      const { noOfRecord, currentPage, status, from, to } = {
+      const { noOfRecord, currentPage, status, from, to, Order, Key } = {
         ...props,
         noOfRecord: +props.noOfRecord, // Convert to number
         currentPage: +props.currentPage, // Convert to number
       };
 
       const getToken = getDataFromToken();
-      console.log("getToken", getToken);
+
       // const { noOfRecord, currentPage, status, from, to } = props;
 
       const skip = (currentPage - 1) * noOfRecord;
@@ -110,6 +110,12 @@ export class TrainService {
             totalOld: 1,
             // startDate:1,
             // journeyEndDate:1,
+          },
+        },
+        // Add sorting stage based on the Order and Key values
+        {
+          $sort: {
+            [Key]: Order === "A" ? 1 : -1, // Sort by the specified Key (ascending or descending)
           },
         },
         { $skip: skip },

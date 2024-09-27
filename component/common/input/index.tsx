@@ -23,7 +23,7 @@ const Input: React.FC<InputProps> = ({
   className,
 }) => {
   // Default class names
-  const defaultClasses = "border-2 rounded-lg border-slate-300 p-2";
+  const defaultClasses = "border-1 rounded-lg border-slate-300 p-2";
 
   return (
     <input

@@ -36,7 +36,7 @@ const RoomDetailList = (props: TProps) => {
 
       <table className="p-2 table-fixed border border-collapse border-spacing-3 border-slate-400 w-full">
         <thead>
-          <tr className="border-b-2">
+          <tr className="border-b">
             <th>Sr</th>
             <th>Room Number</th>
             <th>Room Type</th>
@@ -48,7 +48,7 @@ const RoomDetailList = (props: TProps) => {
           {hotelRoomData &&
             hotelRoomData.map((item, index) => (
               <tr
-                className="border-b-2 even:bg-gray-200 odd:bg-white"
+                className="border-b even:bg-gray-200 odd:bg-white"
                 key={index + 1}
               >
                 <td className="text-center ">{index + 1}</td>

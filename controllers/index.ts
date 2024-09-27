@@ -2,20 +2,22 @@
  * Base controller class managing database connections and data parsing.
  * Ensures database connection is re-established if not already connected.
  */
-
 import { Mongo } from "@/config/db-connection";
 import { isAuthLogin } from "@/utils/utils";
 import mongoose from "mongoose";
-import { redirect } from "next/navigation";
 
 export class IndexController {
   constructor() {
-    this.reInitializeDBConnection();
-    const isAuthUserLogin = isAuthLogin();
+    this.init();
+  }
+  async init(): Promise<void> {
+    await this.reInitializeDBConnection();
+    const isAuthUserLogin = await isAuthLogin();
     if (!isAuthUserLogin) {
-      redirect("/sign-in");
+      // redirect("/sign-in");
     }
   }
+
   async reInitializeDBConnection(): Promise<void> {
     try {
       if (!mongoose.connection.readyState) {

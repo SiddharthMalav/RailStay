@@ -13,12 +13,12 @@ import Title from "@/component/common/title";
 import useDrawer from "@/hooks/useDrawer";
 import { DrawerOpen } from "@/state/drawer/slice";
 import Utils from "@/utils";
+import { ageFilter } from "@/utils/store";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import TrainDetailForm from "./form";
-import { ageFilter } from "@/utils/store";
 
 const initialFilter = {
   trainNumber: "All",
@@ -201,7 +201,7 @@ const TrainDetailPage = () => {
       </div>
       <table className="p-2 table-fixed border border-collapse border-spacing-3 border-slate-400 w-full">
         <thead>
-          <tr className="border-b-2">
+          <tr className="border-b">
             <th>Sr</th>
             <th>PNRNumber</th>
             <th>TrainNumber</th>
@@ -212,7 +212,7 @@ const TrainDetailPage = () => {
           {trainData && trainData && trainData.length > 0 ? (
             trainData.map((item: any, index: any) => (
               <tr
-                className="border-b-2 even:bg-gray-200 odd:bg-white"
+                className="border-b even:bg-gray-200 odd:bg-white"
                 key={index + 1}
               >
                 <td className="text-center ">

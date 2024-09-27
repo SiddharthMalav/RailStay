@@ -21,7 +21,7 @@ const TrainRowDetailModal = (props: TrainRowDetailProps) => {
         <hr className="py-2" />
         <table className="p-2 table-fixed border border-collapse border-spacing-3 border-slate-400 w-full">
           <thead>
-            <tr className="border-b-2">
+            <tr className="border-b">
               <th>Sr</th>
               <th>Train Number</th>
               <th>status</th>
@@ -33,10 +33,7 @@ const TrainRowDetailModal = (props: TrainRowDetailProps) => {
             </tr>
           </thead>
           <tbody>
-            <tr
-              className="border-b-2 even:bg-gray-200 odd:bg-white"
-              key={"row"}
-            >
+            <tr className="border-b even:bg-gray-200 odd:bg-white" key={"row"}>
               <td className="text-center ">1</td>
               {Object.entries(data).map(([key, value], index) => (
                 <td key={index} className="text-center">

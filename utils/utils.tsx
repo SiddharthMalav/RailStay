@@ -9,15 +9,20 @@ export async function getCookie(name: string) {
 }
 export async function isAuthLogin(): Promise<any> {
   const token = await getCookie("token");
-
   if (!token) {
     return false;
   }
   try {
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET as string); // Ensure the secret matches
-    return !!decodedToken;
+    const decodedToken: any = jwt.decode(token, { complete: true });
+    const exp = decodedToken?.payload?.exp; // Expiration timestamp
+    const currentTime = Math.floor(Date.now() / 1000);
+    if (exp && exp < currentTime) {
+      console.error("JWT token has expired");
+      return false;
+    }
+    return true;
   } catch (error) {
-    console.error("JWT token has expired or is invalid");
+    console.error("JWT token has expired or is invalid", error);
     return false;
   }
 }

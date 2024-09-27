@@ -15,6 +15,7 @@ import useModal from "@/hooks/useModal";
 import useToast from "@/hooks/useToast";
 import { ModalSize } from "@/state/modal/slice";
 import { ToastType } from "@/state/toast/slice";
+import Utils from "@/utils";
 import { faStreetView, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Pagination } from "antd";
@@ -22,7 +23,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import SampleForm from "./form";
-import Utils from "@/utils";
 
 const initialFilter = {
   searchQuery: "",
@@ -178,7 +178,9 @@ const ModalList = () => {
               </tr>
             ))
           ) : (
-            <p className="py-6 px-4">No Data Found</p>
+            <tr>
+              <td className="py-6 px-4">No Record Found</td>
+            </tr>
           )}
         </tbody>
       </table>

@@ -170,7 +170,9 @@ const ModalList = () => {
               </tr>
             ))
           ) : (
-            <p className="py-6 px-4">No Data Found</p>
+            <tr>
+              <td className="py-6 px-4">No Record Found</td>
+            </tr>
           )}
         </tbody>
       </table>

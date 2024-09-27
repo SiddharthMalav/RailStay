@@ -4,11 +4,16 @@
 
 "use client";
 
+import Label from "@/component/common/label";
 import Spinner from "@/component/common/spinner";
+import { eHTTPStatusCode } from "@/enums/shared-enums";
+import useToast from "@/hooks/useToast";
+import { ToastType } from "@/state/toast/slice";
 import apiUtil from "@/utils/api";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { FaCheck } from "react-icons/fa";
 
 interface LoginFormData {
   emailOrUsername: string;
@@ -23,6 +28,7 @@ const SignInPage = () => {
   } = useForm<LoginFormData>();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { onShowToast } = useToast();
 
   const onSubmit = async (data: LoginFormData) => {
     try {
@@ -30,14 +36,29 @@ const SignInPage = () => {
       const res = await apiUtil.post("/sign-in", data);
 
       const response = await res.json();
-      if (response.status == 200) {
+      if (response.status == eHTTPStatusCode.OK) {
         document.cookie = `token=${response.token}`;
         router.push("/");
+        onShowToast({
+          type: ToastType.success,
+          title: <FaCheck />,
+          content: response.message || "Successfully Login",
+        });
       } else {
-        console.error(response.message);
+        onShowToast({
+          type: ToastType.error,
+          title: <FaCheck />,
+          content: response.message || "Sign-up failed",
+        });
+        return;
       }
     } catch (error) {
       console.error("error", error);
+      onShowToast({
+        type: ToastType.error,
+        title: <FaCheck />,
+        content: "Sign-in failed",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -57,16 +78,12 @@ const SignInPage = () => {
         <div className="backdrop-blur-[100px] mt-8 py-8 px-4 shadow sm:rounded-lg sm:px-10 bg-opacity-90">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
-              <label
-                htmlFor="emailOrUsername"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email or Username
-              </label>
+              <Label>Email or Username</Label>
               <div className="mt-1">
                 <input
                   id="emailOrUsername"
                   type="text"
+                  autoFocus
                   autoComplete="off"
                   placeholder="Enter Email or Username"
                   className={`appearance-none block w-full px-3 py-2 border ${
@@ -86,12 +103,7 @@ const SignInPage = () => {
               </div>
             </div>
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
+              <Label>Password</Label>
               <div className="mt-1">
                 <input
                   id="password"

@@ -3,14 +3,14 @@
  */
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
-import DropDownNav from "../drop-down-nav";
-import { useEffect, useState } from "react";
-import useScrollTrigger from "@/hooks/scrollTrigger";
 import { eHTTPStatusCode } from "@/enums/shared-enums";
+import useScrollTrigger from "@/hooks/scrollTrigger";
 import { getCookie, removeCookie } from "@/utils/utils";
+import Image from "next/image";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import DropDownNav from "../drop-down-nav";
 
 const Navbar = () => {
   const router = useRouter();
@@ -20,8 +20,11 @@ const Navbar = () => {
 
   const handleSignOut = () => {
     removeCookie("token");
-    router.push("/sign-in");
+    setTimeout(() => {
+      window.open("/sign-in", "_self");
+    }, 1000);
   };
+
   async function getUserDetail() {
     const token: string = (await getCookie("token")) as string;
     const response = await fetch("api/getUserDetails", {

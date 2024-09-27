@@ -9,54 +9,54 @@ import RoomDetailList from "@/app/hotel-list/room-list";
 import DropDown from "@/component/common/dropdown";
 import Input from "@/component/common/input";
 import Label from "@/component/common/label";
-import Pagination from "@/component/common/pagination";
 import Title from "@/component/common/title";
 import { eHTTPStatusCode } from "@/enums/shared-enums";
 import useDrawer from "@/hooks/useDrawer";
 import useToast from "@/hooks/useToast";
 import { ToastType } from "@/state/toast/slice";
+import Utils from "@/utils";
 import { roomFilter } from "@/utils/store";
 import { faStreetView } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Pagination } from "antd";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
+
+const initialFilter = {
+  occupancy: "",
+  searchQuery: "",
+  currentPage: 1,
+  noOfRecord: 10,
+};
 
 const HotelDetailList = () => {
   const router = useRouter();
   const { onShowDrawer } = useDrawer();
   const { onShowToast } = useToast();
   const searchParams = useSearchParams();
-  const occupancyFilter = searchParams.get("occupancy") || "";
-  const searchQuery = searchParams.get("searchQuery") || "";
-  const currentPage =
-    (searchParams.get("currentPage") as unknown as number) || 1;
-
-  const [totalItems, setTotalItems] = useState<number>(0);
+  const [items, setItems] = useState(10);
+  const [filterModel, setFilterModal] = useState({
+    ...initialFilter,
+    ...Utils.getQuery(),
+  });
   const [hotelList, setHotelList] = useState<THotel[]>([]);
 
-  const updateSearchParams = (key: string, value: string) => {
-    const queryParams = new URLSearchParams(window.location.search);
-    queryParams.set(key, value);
-    if (key !== "currentPage") {
-      queryParams.set("currentPage", "1");
-    }
-    router.push(`hotel-list?${queryParams.toString()}`);
-  };
-  const onPageChange = (pageNo: string | number) => {
-    updateSearchParams("currentPage", pageNo.toString() || "1");
+  const updateFilterModal = (newFilter: any) => {
+    const updateFilter = {
+      ...filterModel,
+      ...newFilter,
+    };
+    setFilterModal(updateFilter);
+    Utils.updateQueryParams(updateFilter, router);
   };
 
-  const fetchData = async () => {
+  const fetchData = async (props: any) => {
     try {
-      const response = await getHotelDataAction({
-        searchQuery,
-        currentPage,
-        occupancy: occupancyFilter,
-      });
+      const response = await getHotelDataAction(props);
       if (response.status == eHTTPStatusCode.OK) {
         setHotelList(response.data || []);
-        setTotalItems(response.totalItems || 0);
+        setItems(response.totalItems);
         onShowToast({
           type: ToastType.success,
           title: <FaCheck />,
@@ -75,7 +75,7 @@ const HotelDetailList = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData({ ...filterModel, ...Utils.getQuery() });
   }, [searchParams]);
 
   const showDrawer = (id: string) => {
@@ -87,7 +87,7 @@ const HotelDetailList = () => {
     });
   };
 
-  const startIndex = (currentPage - 1) * 10;
+  const startIndex = (filterModel.currentPage - 1) * 10;
 
   return (
     <div className="px-10 pb-4 pt-20 h-full">
@@ -99,8 +99,12 @@ const HotelDetailList = () => {
           <Input
             className="border"
             type="text"
+            value={filterModel.searchQuery}
             onChange={(e) => {
-              updateSearchParams("searchQuery", e.target.value);
+              updateFilterModal({
+                searchQuery: e.target.value,
+                currentPage: 1,
+              });
             }}
             placeholder={"search anything..."}
             name={""}
@@ -108,9 +112,9 @@ const HotelDetailList = () => {
         </div>
         <DropDown
           name="rooms"
-          value={occupancyFilter}
+          value={filterModel.occupancy}
           onChange={(e) => {
-            updateSearchParams("occupancy", e.target.value);
+            updateFilterModal({ occupancy: e.target.value, currentPage: 1 });
           }}
           options={roomFilter}
         />
@@ -130,7 +134,7 @@ const HotelDetailList = () => {
           </tr>
         </thead>
         <tbody>
-          {hotelList &&
+          {hotelList && hotelList.length ? (
             hotelList.map((item, index: number) => (
               <tr
                 className="border-b even:bg-gray-200 odd:bg-white"
@@ -154,15 +158,20 @@ const HotelDetailList = () => {
                   />
                 </td>
               </tr>
-            ))}
+            ))
+          ) : (
+            <p className="py-6 px-4">No Data Found</p>
+          )}
         </tbody>
       </table>
       <div className="py-8">
         <Pagination
-          itemsPerPage={10}
-          items={totalItems}
-          onPageChange={onPageChange}
-          initialPage={currentPage}
+          current={Number(filterModel.currentPage)}
+          total={items}
+          pageSize={10}
+          onChange={(page, pageSize) => {
+            updateFilterModal({ currentPage: page });
+          }}
         />
       </div>
     </div>

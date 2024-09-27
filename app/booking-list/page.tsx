@@ -6,10 +6,8 @@
 "use client";
 import { getBookingDataAction } from "@/actions/index";
 import PaymentDetailList from "@/app/booking-list/payment-list";
-import Button from "@/component/common/button";
 import Input from "@/component/common/input";
 import Label from "@/component/common/label";
-import Pagination from "@/component/common/pagination";
 import Title from "@/component/common/title";
 import { eHTTPStatusCode } from "@/enums/shared-enums";
 import useModal from "@/hooks/useModal";
@@ -18,6 +16,7 @@ import { ToastType } from "@/state/toast/slice";
 import Utils from "@/utils";
 import { faStreetView } from "@fortawesome/free-solid-svg-icons/faStreetView";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Pagination } from "antd";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
@@ -32,40 +31,41 @@ type TBooking = {
   hotelId: string;
   roomId: string;
 };
+const initialFilter = {
+  occupancy: "",
+  searchQuery: "",
+  startDate: "",
+  endDate: "",
+  currentPage: 1,
+  noOfRecord: 10,
+};
 
 const BookingDetailList = () => {
   const { onShowModal } = useModal();
   const { onShowToast } = useToast();
-  const [totalItems, setTotalItems] = useState<number>(0);
   const [bookingList, setBookingList] = useState<TBooking[]>([]);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
   const searchParams = useSearchParams();
   const router = useRouter();
-  const searchQuery = searchParams.get("searchQuery") || "";
-  const currentPage =
-    (searchParams.get("currentPage") as unknown as number) || 1;
-
-  const updateSearchParams = (key: string, value: string) => {
-    const queryParams = new URLSearchParams(window.location.search);
-    queryParams.set(key, value);
-    if (key !== "currentPage") {
-      queryParams.set("currentPage", "1");
-    }
-    router.push(`booking-list?${queryParams.toString()}`);
+  const [items, setItems] = useState(10);
+  const [filterModel, setFilterModal] = useState({
+    ...initialFilter,
+    ...Utils.getQuery(),
+  });
+  const updateFilterModal = (newFilter: any) => {
+    const updateFilter = {
+      ...filterModel,
+      ...newFilter,
+    };
+    setFilterModal(updateFilter);
+    Utils.updateQueryParams(updateFilter, router);
   };
 
-  const fetchData = async () => {
+  const fetchData = async (props: any) => {
     try {
-      const res = await getBookingDataAction({
-        currentPage,
-        startDate,
-        endDate,
-        searchQuery,
-      });
+      const res = await getBookingDataAction(props);
       if (res.status == eHTTPStatusCode.OK) {
         setBookingList(res.data || []);
-        setTotalItems(res.totalItems || 0);
+        setItems(res.totalItems);
         onShowToast({
           type: ToastType.success,
           title: <FaCheck />,
@@ -84,18 +84,10 @@ const BookingDetailList = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData({ ...filterModel, ...Utils.getQuery() });
   }, [searchParams]);
 
-  const onPageChange = (pageNo: string | number) => {
-    updateSearchParams("currentPage", pageNo.toString() || "1");
-  };
-  const onApply = () => {
-    updateSearchParams("startDate", startDate.toString() || "");
-    updateSearchParams("endDate", endDate.toString() || "");
-  };
-
-  const startIndex = (currentPage - 1) * 10;
+  const startIndex = (filterModel.currentPage - 1) * 10;
   const showDrawer = (id: string) => {
     onShowModal({
       title: "Payment Details",
@@ -111,9 +103,13 @@ const BookingDetailList = () => {
         <Label>Search Name</Label>
         <Input
           className="border"
+          value={filterModel.searchQuery}
           type="text"
           onChange={(e) => {
-            updateSearchParams("searchQuery", e.target.value);
+            updateFilterModal({
+              searchQuery: e.target.value,
+              currentPage: 1,
+            });
           }}
           placeholder={"search anything..."}
           name={""}
@@ -121,26 +117,21 @@ const BookingDetailList = () => {
         <Label>CheckIn Date:</Label>
         <Input
           type="date"
-          name="stateDate"
+          value={filterModel.startDate}
+          name="startDate"
           onChange={(e) => {
-            setStartDate(e.target.value);
+            updateFilterModal({ startDate: e.target.value, currentPage: 1 });
           }}
         />
         <Label>Checkout Date:</Label>
         <Input
           type="date"
           name="endDate"
+          value={filterModel.endDate}
           onChange={(e) => {
-            setEndDate(e.target.value);
+            updateFilterModal({ endDate: e.target.value, currentPage: 1 });
           }}
         />
-        <Button
-          onClick={() => {
-            onApply();
-          }}
-        >
-          Apply
-        </Button>
       </div>
       <table className="p-2 table-fixed border border-collapse border-spacing-3 border-slate-400 w-full">
         <thead>
@@ -157,7 +148,7 @@ const BookingDetailList = () => {
           </tr>
         </thead>
         <tbody>
-          {bookingList &&
+          {bookingList && bookingList.length ? (
             bookingList.map((item, index) => (
               <tr
                 className="border-b even:bg-gray-200 odd:bg-white"
@@ -181,15 +172,20 @@ const BookingDetailList = () => {
                   />
                 </td>
               </tr>
-            ))}
+            ))
+          ) : (
+            <p className="py-6 px-4">No Data Found</p>
+          )}
         </tbody>
       </table>
       <div className="py-8">
         <Pagination
-          itemsPerPage={10}
-          items={totalItems}
-          onPageChange={onPageChange}
-          initialPage={currentPage}
+          current={Number(filterModel.currentPage)}
+          total={items}
+          pageSize={10}
+          onChange={(page, pageSize) => {
+            updateFilterModal({ currentPage: page });
+          }}
         />
       </div>
     </div>

@@ -47,7 +47,7 @@ const validationSchema = Yup.object().shape({
     .required("Pincode is required"),
 });
 
-export default function SampleForm(props: Tprops) {
+export default function DrawerForm(props: Tprops) {
   const { id = 0, refreshList } = props;
   const { onCloseDrawer } = useDrawer();
   const { onShowToast } = useToast();

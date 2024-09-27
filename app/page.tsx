@@ -19,7 +19,7 @@ export default async function Home() {
   if (!MONGODB_URI) {
     throw new Error("Define the MONGODB_URI environmental variable");
   }
-  const isAuthLoginUser = isAuthLogin();
+  const isAuthLoginUser = await isAuthLogin();
   if (!isAuthLoginUser) {
     redirect("/sign-in");
   }

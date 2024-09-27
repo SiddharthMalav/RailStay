@@ -2,18 +2,19 @@
  * This component renders a login form where users can sign in using their email or username and password.
  */
 "use client";
-import * as Yup from "yup";
-import { useState } from "react";
-import apiUtil from "@/utils/api";
-import useToast from "@/hooks/useToast";
-import { FaCheck } from "react-icons/fa";
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import { ToastType } from "@/state/toast/slice";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import Label from "@/component/common/label";
 import Spinner from "@/component/common/spinner";
+import useToast from "@/hooks/useToast";
+import { ToastType } from "@/state/toast/slice";
+import apiUtil from "@/utils/api";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { FaCheck } from "react-icons/fa";
+import * as Yup from "yup";
 
 const signUpSchema = Yup.object().shape({
   userName: Yup.string()
@@ -66,15 +67,13 @@ const SignUpPage = () => {
         });
         return;
       } else {
+        window.open("/sign-in", "_self");
         onShowToast({
           type: ToastType.success,
           title: <FaCheck />,
           content: res.message || "Successfully Created",
         });
       }
-
-      // document.cookie = `token=${res.token}`;
-      router.push("/sign-in");
     } catch (error) {
       console.error("Sign-up error:", error);
       onShowToast({
@@ -105,16 +104,12 @@ const SignUpPage = () => {
             className="space-y-6"
           >
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email
-              </label>
+              <Label>Email</Label>
               <div className="mt-1">
                 <input
                   id="email"
                   type="text"
+                  autoFocus
                   placeholder="Enter Email"
                   className={`appearance-none block w-full px-3 py-2 border ${
                     errors.email ? "border-red-500" : "border-gray-300"
@@ -131,12 +126,7 @@ const SignUpPage = () => {
               </div>
             </div>
             <div>
-              <label
-                htmlFor="userName"
-                className="block text-sm font-medium text-gray-700"
-              >
-                User Name
-              </label>
+              <Label>User Name</Label>
               <div className="mt-1">
                 <input
                   id="userName"
@@ -158,12 +148,7 @@ const SignUpPage = () => {
               </div>
             </div>
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
+              <Label>Password</Label>
               <div className="mt-1">
                 <div className="relative">
                   <input
@@ -181,7 +166,7 @@ const SignUpPage = () => {
                   {passwordValue && passwordValue.length > 1 && (
                     <FontAwesomeIcon
                       onClick={() => setShowPassword(!showPassword)}
-                      className="py-[0.5rem] absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500"
+                      className="absolute top-[0.75rem] inset-y-0 right-3 flex items-center cursor-pointer text-gray-500"
                       icon={showPassword ? faEye : faEyeSlash}
                     />
                   )}

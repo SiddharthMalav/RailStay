@@ -8,7 +8,6 @@ import Hotel from "../schemas/hotelList";
 
 export class HotelService {
   async getHotelListService(data: THotelParams) {
-    console.log("data", data);
     const { currentPage = 1, occupancy = "", searchQuery = "" } = data;
     const itemPerPage = 10;
     try {

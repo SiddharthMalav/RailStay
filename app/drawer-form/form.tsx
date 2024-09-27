@@ -9,23 +9,43 @@ import {
   getUserByIdAction,
   updateUserAction,
 } from "@/actions/index";
-import Button from "@/component/common/button";
-import DropDown from "@/component/common/dropdown";
+import * as Yup from "yup";
+import { useEffect } from "react";
+import { gender } from "@/utils/store";
+import useToast from "@/hooks/useToast";
+import { FaCheck } from "react-icons/fa";
+import useDrawer from "@/hooks/useDrawer";
 import Input from "@/component/common/input";
+import { TUser } from "@/types/shared-types";
 import Label from "@/component/common/label";
 import Title from "@/component/common/title";
-import useDrawer from "@/hooks/useDrawer";
-import useToast from "@/hooks/useToast";
+import Button from "@/component/common/button";
 import { ToastType } from "@/state/toast/slice";
-import { TUser } from "@/types/shared-types";
-import { gender } from "@/utils/store";
-import { useEffect } from "react";
+import DropDown from "@/component/common/dropdown";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { FaCheck } from "react-icons/fa";
 type Tprops = {
   id?: string;
   refreshList: () => void;
 };
+
+// Define Yup validation schema
+
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required("Name is required"),
+  age: Yup.number()
+    .typeError("Age must be a number")
+    .required("Age is required"),
+  gender: Yup.string().required("Gender is required"),
+  address: Yup.string().required("Address is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  number: Yup.string()
+    .matches(/^[0-9]{10}$/, "Number must be 10 digits")
+    .required("Number is required"),
+  pincode: Yup.string()
+    .matches(/^[0-9]{6}$/, "Pincode must be 6 digits")
+    .required("Pincode is required"),
+});
 
 export default function SampleForm(props: Tprops) {
   const { id = 0, refreshList } = props;
@@ -37,7 +57,9 @@ export default function SampleForm(props: Tprops) {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<TUser>();
+  } = useForm<any>({
+    resolver: yupResolver(validationSchema),
+  });
 
   useEffect(() => {
     if (id) initialiseValue();
@@ -109,11 +131,7 @@ export default function SampleForm(props: Tprops) {
 
         <div className="flex py-1">
           <Label className="w-1/4">Gender</Label>
-          <DropDown
-            name="gender"
-            register={register}
-            options={gender}
-          />
+          <DropDown name="gender" register={register} options={gender} />
           {errors.gender && (
             <p className="text-red-500 pl-2">
               {errors.gender.message as string}

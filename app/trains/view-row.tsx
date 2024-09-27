@@ -1,3 +1,7 @@
+/**
+ * Component for displaying particular train details  .
+ */
+
 import Title from "@/component/common/title";
 
 type TrainRowDetailProps = {

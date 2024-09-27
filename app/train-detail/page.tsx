@@ -1,24 +1,30 @@
+/**
+ * Component for displaying train and passanger details with filters and pagination.
+ * Handles dynamic URL parameters for search and occupancy filtering.
+ */
 "use client";
 import {
   getTrainNumberActions,
   getTrainPassangerDetailListActions,
   getTrainPNRNumberActions,
 } from "@/actions";
+import Utils from "@/utils";
 import { Pagination } from "antd";
-
-import Button from "@/component/common/button";
-import DropDown from "@/component/common/dropdown";
+import TrainDetailForm from "./form";
+import useModal from "@/hooks/useModal";
+import useDrawer from "@/hooks/useDrawer";
+import { ageFilter } from "@/utils/store";
+import { useEffect, useState } from "react";
+import TrainRowDetailModal from "./view-row";
 import Input from "@/component/common/input";
 import Title from "@/component/common/title";
-import useDrawer from "@/hooks/useDrawer";
+import Button from "@/component/common/button";
+import { ModalSize } from "@/state/modal/slice";
 import { DrawerOpen } from "@/state/drawer/slice";
-import Utils from "@/utils";
-import { ageFilter } from "@/utils/store";
+import DropDown from "@/component/common/dropdown";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import TrainDetailForm from "./form";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const initialFilter = {
   trainNumber: "All",
@@ -32,6 +38,7 @@ const initialFilter = {
 
 const TrainDetailPage = () => {
   const router = useRouter();
+  const { onShowModal } = useModal();
   const { onShowDrawer } = useDrawer();
   const searchParams = useSearchParams();
   const [items, setItems] = useState<number>(50);
@@ -125,8 +132,16 @@ const TrainDetailPage = () => {
     });
   };
 
+  const onShowRowDataToModal = (rowData: any) => {
+    onShowModal({
+      showButton: false,
+      size: ModalSize.xl,
+      Component: () => <TrainRowDetailModal data={rowData} />,
+    });
+  };
+
   return (
-    <div className="px-10 pb-4 pt-20 h-full relative">
+    <div className="px-10 pb-4 pt-20 h-full ">
       <Title>Train Details Summary</Title>
       <div className="flex gap-2 mt-3">
         <DropDown
@@ -225,7 +240,8 @@ const TrainDetailPage = () => {
                     className="cursor-pointer mr-3"
                     icon={faEye}
                     onClick={() => {
-                      onShowPassangersDetails(item._id);
+                      onShowRowDataToModal(item);
+                      // onShowPassangersDetails(item._id);
                     }}
                   />
                 </td>

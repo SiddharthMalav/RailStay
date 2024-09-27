@@ -1,3 +1,7 @@
+/**
+ * Mongoose schema for managing trainPassangerRouteDetail details.
+ * Defines fields for train number pnr number and passanger related data.
+ */
 import mongoose from "mongoose";
 
 // Define the schema for person details
@@ -63,11 +67,10 @@ const trainDetailsSchema = new mongoose.Schema({
     },
   },
 
-  personDetail: [personDetailSchema],  
-  luggage: [luggageSchema],  
+  personDetail: [personDetailSchema],
+  luggage: [luggageSchema],
 });
 
- 
 export const trainPassangerRouteDetail =
   mongoose.models.trainPassangerRouteDetail ||
   mongoose.model("trainPassangerRouteDetail", trainDetailsSchema);

@@ -1,8 +1,8 @@
 /**
  * Service class for managing train and passanger-related operations.
  */
-import { TrainPassangerDetailType } from "@/types/shared-types";
 import { trainPassangerRouteDetail } from "@/schemas/trainPassangerRouteDetail";
+import { TrainPassangerDetailType } from "@/types/shared-types";
 
 export class TrainPassangerDetailService {
   async getTrainPassangerRouteDetailService(props: TrainPassangerDetailType) {
@@ -15,9 +15,10 @@ export class TrainPassangerDetailService {
         fromDate,
         toDate,
         age,
+        Order,
+        Key,
       } = props;
       const skip = (currentPage - 1) * 50;
-
       const matchStage: any = {};
 
       if (PNRNumber && PNRNumber !== "All") {
@@ -62,15 +63,19 @@ export class TrainPassangerDetailService {
           { "trainDetails.PNRNumber": searchRegex },
         ];
       }
+      const sortStage = {
+        [`trainDetails.${Key}`]: Order === "A" ? 1 : -1, // Ascending (1) or Descending (-1)
+      };
 
-      const pipeline = [
-        { $unwind: "$personDetail" },
-        { $match: matchStage },
-
-        { $skip: skip },
-        { $limit: 50 },
+      const pipeline: any[] = [
+        { $unwind: "$personDetail" }, // Unwind the personDetail array
+        { $match: matchStage }, // Apply the match filters
+        { $sort: sortStage }, // Apply sorting here, before skipping and limiting
+        { $skip: skip }, // Skip for pagination
+        { $limit: 50 }, // Limit the number of results
       ];
 
+      // Execute the aggregation query
       const responseData = await trainPassangerRouteDetail
         .aggregate(pipeline)
         .exec();

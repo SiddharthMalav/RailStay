@@ -9,6 +9,7 @@ import RoomDetailList from "@/app/hotel-list/room-list";
 import DropDown from "@/component/common/dropdown";
 import Input from "@/component/common/input";
 import Label from "@/component/common/label";
+import TableHeader from "@/component/common/table-header";
 import Title from "@/component/common/title";
 import { eHTTPStatusCode } from "@/enums/shared-enums";
 import useDrawer from "@/hooks/useDrawer";
@@ -28,6 +29,8 @@ const initialFilter = {
   searchQuery: "",
   currentPage: 1,
   noOfRecord: 10,
+  Order: "A",
+  Key: "Sr",
 };
 
 const HotelDetailList = () => {
@@ -123,12 +126,33 @@ const HotelDetailList = () => {
         <thead>
           <tr className="border-b">
             <th>Sr</th>
-            <th>Hotel Name</th>
+            <TableHeader
+              Order={filterModel.Order}
+              updateFilterModal={updateFilterModal}
+              columnKey={filterModel.Key}
+              keyValue="name"
+            >
+              Hotel Name
+            </TableHeader>
             <th>Contact Number</th>
             <th>Pin Code </th>
             <th>Location</th>
-            <th>Total Rooms</th>
-            <th>Rooms Available</th>
+            <TableHeader
+              Order={filterModel.Order}
+              updateFilterModal={updateFilterModal}
+              columnKey={filterModel.Key}
+              keyValue="totalRooms"
+            >
+              Total Rooms
+            </TableHeader>
+            <TableHeader
+              Order={filterModel.Order}
+              updateFilterModal={updateFilterModal}
+              columnKey={filterModel.Key}
+              keyValue="availableRooms"
+            >
+              Rooms Available
+            </TableHeader>
             <th>Occupancy</th>
             <th>Rooms Details</th>
           </tr>

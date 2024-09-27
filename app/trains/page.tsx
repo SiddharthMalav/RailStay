@@ -19,6 +19,7 @@ import { trainStatusFilter } from "@/utils/store";
 import DropDown from "@/component/common/dropdown";
 import { TrainListType } from "@/types/shared-types";
 import { useRouter, useSearchParams } from "next/navigation";
+import TableHeader from "@/component/common/table-header";
 
 type TrainData = {
   from: string;
@@ -48,9 +49,12 @@ const Train = () => {
     to: "All",
     currentPage: 1,
     noOfRecord: 10,
+    Order: "A",
+    Key: "Sr",
   });
 
   const updateFilterModal = (newFilter: any) => {
+    console.log("newFilter", newFilter);
     const updateFilter = {
       ...filterModel,
       ...newFilter,
@@ -157,13 +161,62 @@ const Train = () => {
             <thead>
               <tr className="border-b">
                 <th>Sr</th>
-                <th>Train Number</th>
-                <th>status</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Kids</th>
-                <th>Young</th>
-                <th>old</th>
+                <TableHeader
+                  Order={filterModel.Order}
+                  updateFilterModal={updateFilterModal}
+                  columnKey={filterModel.Key}
+                  keyValue="trainNumber"
+                >
+                  Train Number
+                </TableHeader>
+                <TableHeader
+                  Order={filterModel.Order}
+                  updateFilterModal={updateFilterModal}
+                  columnKey={filterModel.Key}
+                  keyValue="status"
+                >
+                  status
+                </TableHeader>
+                <TableHeader
+                  Order={filterModel.Order}
+                  updateFilterModal={updateFilterModal}
+                  columnKey={filterModel.Key}
+                  keyValue="from"
+                >
+                  From
+                </TableHeader>
+                <TableHeader
+                  Order={filterModel.Order}
+                  updateFilterModal={updateFilterModal}
+                  columnKey={filterModel.Key}
+                  keyValue="to"
+                >
+                  To
+                </TableHeader>
+                <TableHeader
+                  Order={filterModel.Order}
+                  updateFilterModal={updateFilterModal}
+                  columnKey={filterModel.Key}
+                  keyValue="totalKids"
+                >
+                  Kids
+                </TableHeader>
+                <TableHeader
+                  Order={filterModel.Order}
+                  updateFilterModal={updateFilterModal}
+                  columnKey={filterModel.Key}
+                  keyValue="totalYoung"
+                >
+                  Young
+                </TableHeader>
+                <TableHeader
+                  Order={filterModel.Order}
+                  updateFilterModal={updateFilterModal}
+                  columnKey={filterModel.Key}
+                  keyValue="totalOld"
+                >
+                  Old
+                </TableHeader>
               </tr>
             </thead>
             <tbody>

@@ -25,6 +25,7 @@ import DropDown from "@/component/common/dropdown";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import TableHeader from "@/component/common/table-header";
 
 const initialFilter = {
   trainNumber: "All",
@@ -34,6 +35,8 @@ const initialFilter = {
   toDate: "",
   currentPage: 1,
   searchText: "",
+  Order: "A",
+  Key: "Sr",
 };
 
 const TrainDetailPage = () => {
@@ -68,20 +71,14 @@ const TrainDetailPage = () => {
   }, [searchParams]);
 
   useEffect(() => {
+    Utils.updateQueryParams(filterModel, router);
+  }, [filterModel.Order]);
+
+  useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.set("currentPage", filterModel.currentPage.toString());
     router.push(`${window.location.pathname}?${queryParams.toString()}`);
   }, [filterModel.currentPage]);
-
-  // const fetchData = async (props: any) => {
-  //   const response = await getTrainPassangerDetailListActions(props);
-  //   if (response && response?.data) {
-  //     setTrainData(response.data || []);
-  //     setItems(response?.totalRecord);
-  //     setFilterModal(props);
-  //   }
-  //   throw new Error("Define the MONGODB_URI environmental variable");
-  // };
 
   const fetchData = async (props: any) => {
     try {
@@ -218,8 +215,22 @@ const TrainDetailPage = () => {
         <thead>
           <tr className="border-b">
             <th>Sr</th>
-            <th>PNRNumber</th>
-            <th>TrainNumber</th>
+            <TableHeader
+              Order={filterModel.Order}
+              updateFilterModal={updateFilterModal}
+              columnKey={filterModel.Key}
+              keyValue="PNRNumber"
+            >
+              PNRNumber
+            </TableHeader>
+            <TableHeader
+              Order={filterModel.Order}
+              updateFilterModal={updateFilterModal}
+              columnKey={filterModel.Key}
+              keyValue="trainNumber"
+            >
+              Train Number
+            </TableHeader>
             <th>Actions</th>
           </tr>
         </thead>
@@ -241,7 +252,6 @@ const TrainDetailPage = () => {
                     icon={faEye}
                     onClick={() => {
                       onShowRowDataToModal(item);
-                      // onShowPassangersDetails(item._id);
                     }}
                   />
                 </td>

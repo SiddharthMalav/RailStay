@@ -1,5 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
+import ArrowTop from "../arrow-top";
 
 export default function Footer() {
   const pathName = usePathname();
@@ -145,9 +146,10 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="py-6 text-sm text-center dark:text-gray-600">
+        <div className="pt-6 text-sm text-center dark:text-gray-600">
           © 1968 Company Co. All rights reserved.
         </div>
+        {/* <ArrowTop /> */}
       </footer>
     );
   } else {

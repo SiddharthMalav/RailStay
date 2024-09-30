@@ -4,6 +4,7 @@
  * TODO: UI not implement yet
  */
 "use server";
+import ArrowTop from "@/component/common/arrow-top";
 import { MONGODB_URI } from "@/config/env";
 import { isAuthLogin } from "@/utils/utils";
 import dynamic from "next/dynamic";
@@ -226,6 +227,7 @@ export default async function Home() {
           </div>
         </div>
       </div>
+      
     </main>
   );
 }
